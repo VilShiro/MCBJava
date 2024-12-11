@@ -62,37 +62,67 @@ public abstract class MultiClientBot extends Bot {
     @Deprecated
     @Override
     protected void callbackQueryParse(CallbackQuery query) throws Exception {
-        callbackQueryParse(query, getClientById(query.from().id()));
+        Client client = getClientById(query.from().id());
+        if (client == null) {
+            client = new Client(query.from());
+            clients.add(client);
+        }
+        callbackQueryParse(query, client);
     }
 
     @Deprecated
     @Override
     protected void entitiesParse(MessageEntity[] messageEntities, Message message) throws Exception {
-        entitiesParse(messageEntities, message, getClientById(message.from().id()));
+        Client client = getClientById(message.from().id());
+        if (client == null) {
+            client = new Client(message.from());
+            clients.add(client);
+        }
+        entitiesParse(messageEntities, message, client);
     }
 
     @Deprecated
     @Override
     protected void inlineQueryParse(InlineQuery query) throws Exception {
+        Client client = getClientById(query.from().id());
+        if (client == null) {
+            client = new Client(query.from());
+            clients.add(client);
+        }
         inlineQueryParse(query, getClientById(query.from().id()));
     }
 
     @Deprecated
     @Override
     protected void messageParse(Message message) throws Exception {
+        Client client = getClientById(message.from().id());
+        if (client == null) {
+            client = new Client(message.from());
+            clients.add(client);
+        }
         messageParse(message, getClientById(message.from().id()));
     }
 
     @Deprecated
     @Override
     protected void onStartCommand(Message message) throws Exception {
+        Client client = getClientById(message.from().id());
+        if (client == null) {
+            client = new Client(message.from());
+            clients.add(client);
+        }
         onStartCommand(message, getClientById(message.from().id()));
     }
 
     @Deprecated
     @Override
     protected void updateParse(Update update) throws Exception {
-        updateParse(update, getClientById(update.myChatMember().from().id()));
+        Client client = getClientById(update.myChatMember().from().id());
+        if (client == null) {
+            client = new Client(update.myChatMember().from());
+            clients.add(client);
+        }
+        updateParse(update, client);
     }
 
     private Client getClientById(long id){
