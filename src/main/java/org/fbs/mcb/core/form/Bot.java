@@ -15,14 +15,16 @@ public abstract class Bot {
 
     protected Bot(String botToken, String startCommandRaw){
         StringBuilder stringBuilder = new StringBuilder();
-        String startCommand = "";
+        String startCommand;
         if (startCommandRaw.toCharArray()[0] == '/'){
             for (int i = 1; i < startCommandRaw.length(); i++) {
                 stringBuilder.append(startCommandRaw.toCharArray()[i]);
             }
             startCommand = stringBuilder.toString();
         }
-        startCommand = startCommandRaw;
+        else {
+            startCommand = startCommandRaw;
+        }
 
         bot = new TelegramBot(botToken);
         String finalStartCommand = startCommand;
@@ -86,11 +88,9 @@ public abstract class Bot {
 
                 }, e -> {
                     if (e.response() != null) {
-                        // got bad response from telegram
                         e.response().errorCode();
                         e.response().description();
                     } else {
-                        // probably network error
                         LOGGER.error(e.getMessage());
                     }
                 }
