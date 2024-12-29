@@ -1,7 +1,5 @@
 # MCB - Multi Client Bot
 
----
-
 ## Structure
 <!-- TOC -->
 * [Get started](#get-started)
