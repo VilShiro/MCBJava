@@ -1,4 +1,4 @@
-package org.fbs.mcb.core.data.client;
+package org.fbs.mcb.data.client;
 
 import java.util.ArrayList;
 
@@ -29,19 +29,14 @@ public class ClientThreads {
     }
 
     public void removeClientThread(ClientThread thread){
-        thread.stop();
         threads.remove(thread);
     }
 
     public void removeClientThread(int i){
-        threads.get(i).stop();
         threads.remove(i);
     }
 
     public void removeAllThreads(){
-        for(ClientThread thread : threads){
-            thread.stop();
-        }
         threads.clear();
     }
 

@@ -1,6 +1,4 @@
-package org.fbs.mcb.core.data.client;
-
-import static org.fbs.mcb.core.form.Bot.getLOGGER;
+package org.fbs.mcb.data.client;
 
 public class ClientThread extends Thread{
 
@@ -8,7 +6,6 @@ public class ClientThread extends Thread{
 
     public ClientThread(String userId){
         this.userId = userId;
-        getLOGGER().trace("ClientThread obj was created with chat id: {}", userId);
         start();
     }
 

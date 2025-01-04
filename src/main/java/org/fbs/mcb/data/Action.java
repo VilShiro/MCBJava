@@ -1,4 +1,4 @@
-package org.fbs.mcb.core.data;
+package org.fbs.mcb.data;
 
 public enum Action {
 

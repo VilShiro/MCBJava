@@ -1,9 +1,7 @@
-package org.fbs.mcb.core.data.client;
+package org.fbs.mcb.data.client;
 
 import com.pengrad.telegrambot.model.User;
-import org.fbs.mcb.core.data.Action;
-
-import static org.fbs.mcb.core.form.Bot.getLOGGER;
+import org.fbs.mcb.data.Action;
 
 public class Client {
 
@@ -24,7 +22,6 @@ public class Client {
         parsingThreadsCallbackBack = new ClientThreads(user.id());
         parsingThreadsInline = new ClientThreads(user.id());
         parsingThreadsStart = new ClientThreads(user.id());
-        getLOGGER().info("Client obj was created with chat id: {}", user.id());
     }
 
     public User getUser() {

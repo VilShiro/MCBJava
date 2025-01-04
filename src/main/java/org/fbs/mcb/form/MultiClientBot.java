@@ -1,9 +1,9 @@
-package org.fbs.mcb.core.form;
+package org.fbs.mcb.form;
 
 import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.core.data.Action;
-import org.fbs.mcb.core.data.client.Client;
-import org.fbs.mcb.core.data.client.ClientThreads;
+import org.fbs.mcb.data.Action;
+import org.fbs.mcb.data.client.Client;
+import org.fbs.mcb.data.client.ClientThreads;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -39,7 +39,6 @@ public abstract class MultiClientBot extends Bot {
 
         if (clientThreads.getUserId() == userId) {
             for (int i = 0; i < clientThreads.size(); i++) {
-                getLOGGER().trace("Thread {}, was removed; (userId: {})", clientThreads.get(i), userId);
                 clientThreads.removeClientThread(i);
             }
         }
@@ -47,21 +46,21 @@ public abstract class MultiClientBot extends Bot {
         return clientThreads;
     }
 
-    protected abstract void callbackQueryParse(CallbackQuery query, Client client) throws Exception;
+    protected abstract void callbackQueryParse(CallbackQuery query, Client client);
 
-    protected abstract void entitiesParse(MessageEntity[] messageEntities, Message message, Client client) throws Exception;
+    protected abstract void entitiesParse(MessageEntity[] messageEntities, Message message, Client client) ;
 
-    protected abstract void inlineQueryParse(InlineQuery query, Client client) throws Exception;
+    protected abstract void inlineQueryParse(InlineQuery query, Client client);
 
-    protected abstract void messageParse(Message message, Client client) throws Exception;
+    protected abstract void messageParse(Message message, Client client);
 
-    protected abstract void onStartCommand(Message message, Client client) throws Exception;
+    protected abstract void onStartCommand(Message message, Client client);
 
-    protected abstract void updateParse(Update update, Client client) throws Exception;
+    protected abstract void updateParse(Update update, Client client);
 
     @Deprecated
     @Override
-    protected void callbackQueryParse(CallbackQuery query) throws Exception {
+    protected void callbackQueryParse(CallbackQuery query){
         Client client = getClientById(query.from().id());
         if (client == null) {
             client = new Client(query.from());
@@ -72,7 +71,7 @@ public abstract class MultiClientBot extends Bot {
 
     @Deprecated
     @Override
-    protected void entitiesParse(MessageEntity[] messageEntities, Message message) throws Exception {
+    protected void entitiesParse(MessageEntity[] messageEntities, Message message){
         Client client = getClientById(message.from().id());
         if (client == null) {
             client = new Client(message.from());
@@ -83,7 +82,7 @@ public abstract class MultiClientBot extends Bot {
 
     @Deprecated
     @Override
-    protected void inlineQueryParse(InlineQuery query) throws Exception {
+    protected void inlineQueryParse(InlineQuery query){
         Client client = getClientById(query.from().id());
         if (client == null) {
             client = new Client(query.from());
@@ -94,7 +93,7 @@ public abstract class MultiClientBot extends Bot {
 
     @Deprecated
     @Override
-    protected void messageParse(Message message) throws Exception {
+    protected void messageParse(Message message){
         Client client = getClientById(message.from().id());
         if (client == null) {
             client = new Client(message.from());
@@ -105,7 +104,7 @@ public abstract class MultiClientBot extends Bot {
 
     @Deprecated
     @Override
-    protected void onStartCommand(Message message) throws Exception {
+    protected void onStartCommand(Message message){
         Client client = getClientById(message.from().id());
         if (client == null) {
             client = new Client(message.from());
@@ -116,7 +115,7 @@ public abstract class MultiClientBot extends Bot {
 
     @Deprecated
     @Override
-    protected void updateParse(Update update) throws Exception {
+    protected void updateParse(Update update){
         Client client = getClientById(update.myChatMember().from().id());
         if (client == null) {
             client = new Client(update.myChatMember().from());

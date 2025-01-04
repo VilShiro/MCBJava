@@ -13,7 +13,7 @@ Create a class inheriting from the Bot or MultiClientBot
 
 ```java
 import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.core.form.Bot;
+import org.fbs.mcb.form.Bot;
 
 public class MyBot extends Bot {
 
@@ -25,22 +25,28 @@ public class MyBot extends Bot {
     }
 
     @Override
-    protected void onStartCommand(Message message) {}
+    protected void onStartCommand(Message message) {
+    }
 
     @Override
-    protected void updateParse(Update update) {}
+    protected void updateParse(Update update) {
+    }
 
     @Override
-    protected void callbackQueryParse(CallbackQuery query) {}
+    protected void callbackQueryParse(CallbackQuery query) {
+    }
 
     @Override
-    protected void entitiesParse(MessageEntity[] messageEntities, Message message) {}
+    protected void entitiesParse(MessageEntity[] messageEntities, Message message) {
+    }
 
     @Override
-    protected void messageParse(Message message) {}
+    protected void messageParse(Message message) {
+    }
 
     @Override
-    protected void inlineQueryParse(InlineQuery query) {}
+    protected void inlineQueryParse(InlineQuery query) {
+    }
 }
 ```
 
