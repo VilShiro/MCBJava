@@ -4,6 +4,16 @@
 
 > _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible._
 
+<!-- TOC -->
+* [MCB - Multi Client Bot](#mcb---multi-client-bot)
+  * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
+    * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
+    * [@Feedback annotation](#feedback-annotation)
+    * [@Command annotation](#command-annotation)
+    * [Priorities](#priorities)
+  * [Thanks](#thanks)
+<!-- TOC -->
+
 ## Get started(Only for Bot class)
 
 ### Bot superclass and @BotConfiguration annotation
