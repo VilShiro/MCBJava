@@ -46,6 +46,9 @@ public abstract class Bot {
 
     protected Bot(Class<?> configurationClass) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         setConfiguration(configurationClass);
+        if (Objects.equals(configuration.getBotToken(), "")){
+            throw new RuntimeException("Configuration bot token is null or empty");
+        }
         bot = new TelegramBot(configuration.getBotToken());
         setListener();
     }
