@@ -1,59 +1,110 @@
 # MCB - Multi Client Bot
 
-## Structure
-<!-- TOC -->
-* [Get started](#get-started)
-* [Features](#features)
-* [Thanks❤️](#thanks)
-<!-- TOC -->
+> _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-user multi-threaded work will be implemented._
 
-## Get started
+> _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible._
 
-Create a class inheriting from the Bot or MultiClientBot
+## Get started(Only for Bot class)
 
+### Bot superclass and @BotConfiguration annotation
+
+First, you must create a class that is a descendant of the Bot class and implement one of the constructors (recommended with a configuration class)
+
+MyBot.java
 ```java
-import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.form.Bot;
-
-public class MyBot extends Bot {
-
-    private static final String BOT_TOKEN = "your bot token";
-    private static final String START_COMMAND = "/start";
-
-    protected MyBot() {
-        super(BOT_TOKEN, START_COMMAND);
-    }
-
-    @Override
-    protected void onStartCommand(Message message) {
-    }
-
-    @Override
-    protected void updateParse(Update update) {
-    }
-
-    @Override
-    protected void callbackQueryParse(CallbackQuery query) {
-    }
-
-    @Override
-    protected void entitiesParse(MessageEntity[] messageEntities, Message message) {
-    }
-
-    @Override
-    protected void messageParse(Message message) {
-    }
-
-    @Override
-    protected void inlineQueryParse(InlineQuery query) {
+public class MyBot extends Bot{
+    public MyBot(){
+        super(MyConfig.class);
     }
 }
 ```
 
-## Features
+Next, in the specified MyConfig class, add the BotConfiguration annotation and specify the token
 
-The Bot class methods do not create separate threads for processing, if your implementation requires multi-threaded processing, you will have to implement it yourself.
+MyConfig.java
+
+```java
+@BotConfiguration(botToken = "your token")
+public class MyConfig {
+    
+}
+```
+
+Additional BotConfiguration parameters:
+
+| parameter        | type    | functionality                                                                                                                                                                                                                |
+|------------------|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| threadSeparation | boolean | each command will run in its own thread                                                                                                                                                                                      |
+| startCommand     | String  | start command, usually `/start`                                                                                                                                                                                              |
+| doubleDispatch   | boolean | when disabled - updates come only to annotated functions, when enabled - to annotated functions and overridden ones                                                                                                          |
+| staticBuild      | boolean | does not create an instance of the configuration class within itself, the value is ignored if the `@BotConfiguration` annotation is on a class that is a descendant of the Bot class, only static functions will be executed |
+
+### @Feedback annotation
+
+Create a function that returns a value of type `void` with any access and static modifier, add to the parameters any set of parameters available for this function
+
+```java
+@BotConfiguration(botToken = "your token")
+public class MyConfig {
+
+    @Feedback(type = "update")
+    public void onUpdate() {
+        // parse your update here
+    }
+
+    @Feedback(type = "message")
+    private static void message(Bot bot) {
+        // also parse messages here
+    }
+
+    @Feedback(type = "start")
+    private void runBot(Message message, Bot bot) {
+        // code here
+    }
+
+}
+```
+
+Parameter sets for update processing functions
+
+| type           | parameter set(classes)                                                                                                |
+|----------------|-----------------------------------------------------------------------------------------------------------------------|
+| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
+| start          | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
+| message        | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
+| entities       | com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot** |
+| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, org.fbs.mcb.form.**Bot**                                             |
+| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, org.fbs.mcb.form.**Bot**                                               |
+
+### @Command annotation
+
+Create a function that returns a value of type `void` of any access and static modifier, add the `@Command` annotation and with the `command` parameter specify the command that will be called when sent
+
+```java
+@BotConfiguration(botToken = "your token")
+public class MyConfig {
+
+    @Command(command = "/help")
+    private void help(Bot bot) {
+        // realize algorithm here
+    }
+
+    @Command(command = "/exit")
+    public static void save(Message message){
+        // saving logic...
+    }
+
+}
+```
+
+Command functions have the same parameter sets as `@Feedback(type = "entities")`
+
+### Priorities
+
+- If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
 
 ## Thanks
 - IDE [Intellij Idea](https://www.jetbrains.com/idea/)
 - Base [pengrad telegram bot api](https://github.com/pengrad/java-telegram-bot-api)
+- junit [junit](https://github.com/junit-team/junit4)
+- lombok [lombok](https://github.com/projectlombok/lombok)
