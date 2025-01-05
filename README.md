@@ -4,6 +4,8 @@
 
 > _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible._
 
+> _Publishing to Maven Central with version 2.0 release_
+
 <!-- TOC -->
 * [MCB - Multi Client Bot](#mcb---multi-client-bot)
   * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
