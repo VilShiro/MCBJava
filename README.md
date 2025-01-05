@@ -13,6 +13,7 @@
     * [@Feedback annotation](#feedback-annotation)
     * [@Command annotation](#command-annotation)
     * [Priorities](#priorities)
+  * [Prospect](#prospect)
   * [Thanks](#thanks)
 <!-- TOC -->
 
