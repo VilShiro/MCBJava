@@ -1,26 +1,35 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.fbs.mcb</groupId>
+  <groupId>io.github.vilshiro</groupId>
   <artifactId>MCBJava</artifactId>
-  <version>1.5</version>
+  <version>1.5.0</version>
   <packaging>jar</packaging>
 
-  <name>MCB java</name>
+  <name>MCB Java</name>
   <description>A base for writing a telegram bot with a standard implementation or with the ability to interact with a large number of users in multi-threaded mode.</description>
-  <url>https://maven.apache.org</url>
+  <url>https://github.com/VilShiro/MCBJava</url>
 
   <licenses>
     <license>
       <name>MIT License</name>
-      <url>https://github.com/VilShiro/MCBJava?tab=MIT-1-ov-file#readme</url>
-      <distribution>repo</distribution>
+      <url>https://www.opensource.org/licenses/mit-license.php</url>
     </license>
   </licenses>
 
+  <developers>
+    <developer>
+      <name>Vitaliy Levchuk</name>
+      <email>vitaliy.levchuk.ladno@gmail.com</email>
+    </developer>
+  </developers>
+
   <scm>
-    <url>https://github.com/VilShiro/MCBJava</url>
+    <connection>scm:git:git://github.com/VilShiro/MCBJava.git</connection>
+    <developerConnection>scm:git:ssh://github.com:VilShiro/MCBJava.git</developerConnection>
+    <url>https://github.com/VilShiro/MCBJava/tree/master-1.5</url>
   </scm>
 
   <properties>
@@ -48,6 +57,61 @@
   </dependencies>
   <build>
     <plugins>
+<!--      publish-->
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.6.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
+        </configuration>
+      </plugin>
+<!--      javadoc-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+<!--      source-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+<!--      gpg-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.7</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+<!--      compile-->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
