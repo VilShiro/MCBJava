@@ -9,6 +9,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface IgnoreUpdate {
 
-    IgnoreType[] ignoreTypes();
+    IgnoreType[] value();
 
 }
