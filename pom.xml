@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.fbs.mcb</groupId>
-  <artifactId>MCBJava-core-quickstart</artifactId>
-  <version>dev-0.0.1</version>
+  <artifactId>MCBJava</artifactId>
+  <version>1.5</version>
   <packaging>jar</packaging>
 
-  <name>mcb-java-core</name>
+  <name>mcb-java</name>
   <url>https://maven.apache.org</url>
 
   <properties>
