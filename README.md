@@ -80,14 +80,14 @@ public class MyConfig {
 
 Parameter sets for update processing functions
 
-| type           | parameter set(classes)                                                                                                |
-|----------------|-----------------------------------------------------------------------------------------------------------------------|
-| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
-| start          | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
-| message        | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                    |
-| entities       | com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot** |
-| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, org.fbs.mcb.form.**Bot**                                             |
-| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, org.fbs.mcb.form.**Bot**                                               |
+| type           | parameter set(classes)                                                                                                 |
+|----------------|------------------------------------------------------------------------------------------------------------------------|
+| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                     |
+| start          | com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
+| message        | com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
+| entities       | com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
+| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, org.fbs.mcb.form.**Bot**                                              |
+| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, org.fbs.mcb.form.**Bot**                                                |
 
 ### @Command annotation
 
