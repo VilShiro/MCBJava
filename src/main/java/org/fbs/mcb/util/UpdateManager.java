@@ -82,7 +82,7 @@ public class UpdateManager {
             methods = getAnnotatedMethods(processor.getConfigurationClass(), Feedback.class);
         }
         for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("inline_query")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("inline_query")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), query, bot);
             }
         }
@@ -105,7 +105,7 @@ public class UpdateManager {
         }catch (NullPointerException e){
             methods = getAnnotatedMethods(processor.getConfigurationClass(), Feedback.class);
         }        for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("callback_query")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("callback_query")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), query, bot);
             }
         }
@@ -129,7 +129,7 @@ public class UpdateManager {
             methods = getAnnotatedMethods(processor.getConfigurationClass(), Feedback.class);
         }
         for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("start")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("start")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), message, bot);
             }
         }
@@ -161,12 +161,12 @@ public class UpdateManager {
             commands = getAnnotatedMethods(processor.getConfigurationClass(), Command.class);
         }
         for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("entities")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("entities")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), entities,  message, bot);
             }
         }
         for (Method method : commands){
-            if (Objects.equals(method.getAnnotation(Command.class).command(), message.text())){
+            if (Objects.equals(method.getAnnotation(Command.class).value(), message.text())){
                 if (processor.isThreadSeparation()) {
                     new Thread(() -> {
                         try {
@@ -202,7 +202,7 @@ public class UpdateManager {
             methods = getAnnotatedMethods(processor.getConfigurationClass(), Feedback.class);
         }
         for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("message")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("message")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), message, bot);
             }
         }
@@ -225,7 +225,7 @@ public class UpdateManager {
         }
 
         for (Method method : methods) {
-            if (method.getAnnotation(Feedback.class).type().equalsIgnoreCase("update")){
+            if (method.getAnnotation(Feedback.class).value().equalsIgnoreCase("update")){
                 MethodInvoker.invokeUnknownMethod(method, processor.isStaticBuild(), processor.getConfigurationObject(), update, bot);
             }
         }

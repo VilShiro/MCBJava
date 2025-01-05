@@ -14,7 +14,7 @@ public @interface Command {
     /**
      * Specifies the command string that triggers this handler.
      */
-    String command();
+    String value();
 
     /**
      * Indicates whether this command is restricted to admin users only.

@@ -14,5 +14,5 @@ public @interface Feedback {
     /**
      * Specifies the type of feedback that the annotated method can handle.
      */
-    String type();
+    String value();
 }
