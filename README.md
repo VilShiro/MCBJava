@@ -1,5 +1,7 @@
 # MCB - Multi Client Bot
 
+> Latest version is 1.5, check out the branches
+
 ## Structure
 <!-- TOC -->
 * [Get started](#get-started)
