@@ -16,8 +16,4 @@ public @interface Command {
      */
     String value();
 
-    /**
-     * Indicates whether this command is restricted to admin users only.
-     */
-    boolean onlyForAdmin() default false;
 }
