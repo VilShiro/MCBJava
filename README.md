@@ -115,6 +115,12 @@ Command functions have the same parameter sets as `@Feedback(type = "entities")`
 
 - If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
 
+## Prospect
+
+[-] Ignoring individual senders
+[-] Implementation of multi-user functionality
+[-] Possibility of implementing third-party Telegram Bot API
+
 ## Thanks
 - IDE [Intellij Idea](https://www.jetbrains.com/idea/)
 - Base [pengrad telegram bot api](https://github.com/pengrad/java-telegram-bot-api)
