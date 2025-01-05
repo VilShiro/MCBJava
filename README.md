@@ -110,7 +110,7 @@ public class MyConfig {
 }
 ```
 
-Command functions have the same parameter sets as `@Feedback(type = "entities")`
+Command functions have the same parameter sets as `@Feedback(type = "entities")`, but without MessageEntities array
 
 ### Priorities
 
