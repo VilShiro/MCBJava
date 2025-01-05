@@ -1,14 +1,27 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
+  <modelVersion>4.0.0</modelVersion>
   <groupId>org.fbs.mcb</groupId>
   <artifactId>MCBJava</artifactId>
   <version>1.5</version>
   <packaging>jar</packaging>
 
-  <name>mcb-java</name>
+  <name>MCB java</name>
+  <description>A base for writing a telegram bot with a standard implementation or with the ability to interact with a large number of users in multi-threaded mode.</description>
   <url>https://maven.apache.org</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://github.com/VilShiro/MCBJava?tab=MIT-1-ov-file#readme</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/VilShiro/MCBJava</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
