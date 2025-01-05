@@ -3,7 +3,7 @@ package org.fbs.mcb.util;
 import com.pengrad.telegrambot.model.*;
 import org.fbs.mcb.annotation.Command;
 import org.fbs.mcb.annotation.Feedback;
-import org.fbs.mcb.form.Bot;
+import org.fbs.mcb.data.entity.Bot;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

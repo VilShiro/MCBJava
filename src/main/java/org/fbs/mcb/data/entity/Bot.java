@@ -1,4 +1,4 @@
-package org.fbs.mcb.form;
+package org.fbs.mcb.data.entity;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;

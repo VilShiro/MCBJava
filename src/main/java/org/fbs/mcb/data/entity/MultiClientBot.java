@@ -1,4 +1,4 @@
-package org.fbs.mcb.form;
+package org.fbs.mcb.data.entity;
 
 import com.pengrad.telegrambot.model.*;
 import org.fbs.mcb.data.Action;

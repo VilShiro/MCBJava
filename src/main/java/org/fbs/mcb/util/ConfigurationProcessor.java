@@ -3,7 +3,7 @@ package org.fbs.mcb.util;
 import com.pengrad.telegrambot.model.Update;
 import lombok.Getter;
 import org.fbs.mcb.annotation.BotConfiguration;
-import org.fbs.mcb.form.Bot;
+import org.fbs.mcb.data.entity.Bot;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
