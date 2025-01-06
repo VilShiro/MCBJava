@@ -1,5 +1,6 @@
 <div align = "center">
   <h1>MCB - Multi Client Bot</h1>
+  <img src="Logo.jpg" alt=""/>
   <a href="https://github.com/VilShiro/MCBJava/releases/latest">
     <img src="https://img.shields.io/github/release/VilShiro/MCBJava.svg?style=flat" alt="">
   </a>
