@@ -4,7 +4,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.vilshiro</groupId>
-  <artifactId>MCBJava</artifactId>
+  <artifactId>mcb</artifactId>
   <version>1.5.0</version>
   <packaging>jar</packaging>
 
