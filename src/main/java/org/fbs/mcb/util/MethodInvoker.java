@@ -16,6 +16,11 @@ import java.util.*;
 public class MethodInvoker {
 
     /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private MethodInvoker(){}
+
+    /**
      * Invokes a method with unknown arguments based on their class types.
      * <p>
      * This method iterates through all possible subsets of the argument classes,
