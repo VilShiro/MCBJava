@@ -1,4 +1,12 @@
-# MCB - Multi Client Bot
+<div align = "center">
+  <h1>MCB - Multi Client Bot</h1>
+  <a href="https://github.com/VilShiro/MCBJava/releases/latest">
+    <img src="https://img.shields.io/github/release/VilShiro/MCBJava.svg?style=flat" alt="">
+  </a>
+  <a href="https://github.com/VilShiro/MCBJava/releases/latest">
+    <img src="https://img.shields.io/github/downloads/VilShiro/MCBJava/total.svg?style=flat" alt="">
+  </a>
+</div>
 
 > _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-user multi-threaded work will be implemented._
 
@@ -7,14 +15,13 @@
 > _Publishing to Maven Central with version 2.0 release_
 
 <!-- TOC -->
-* [MCB - Multi Client Bot](#mcb---multi-client-bot)
-  * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
-    * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
-    * [@Feedback annotation](#feedback-annotation)
-    * [@Command annotation](#command-annotation)
-    * [Priorities](#priorities)
-  * [Prospect](#prospect)
-  * [Thanks](#thanks)
+* [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
+  * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
+  * [@Feedback annotation](#feedback-annotation)
+  * [@Command annotation](#command-annotation)
+  * [Priorities](#priorities)
+* [Prospect](#prospect)
+* [Thanks](#thanks)
 <!-- TOC -->
 
 ## Get started(Only for Bot class)
@@ -118,6 +125,7 @@ Command functions have the same parameter sets as `@Feedback(type = "entities")`
 
 ## Prospect
 
+[-] Add a buffer of processed methods for faster response to updates
 [-] Ignoring individual senders
 [-] Implementation of multi-user functionality
 [-] Possibility of implementing third-party Telegram Bot API
