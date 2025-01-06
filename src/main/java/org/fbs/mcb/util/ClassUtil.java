@@ -8,6 +8,11 @@ import java.lang.reflect.Type;
 public class ClassUtil {
 
     /**
+     * Private constructor to prevent instantiation of this utility class.
+     */
+    private ClassUtil(){}
+
+    /**
      * Checks if the specified class is either the same as, or is a superclass or superinterface of, the specified class.
      *
      * @param ancestor The class to be checked for being an ancestor of the {@code descendant} class.
