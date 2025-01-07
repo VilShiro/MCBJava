@@ -23,6 +23,8 @@ public class BotMethod {
     private final IgnoreSender[] ignoreSenders;
     @Getter
     private final MethodType type;
+    @Getter
+    private final String key;
     
     /**
      * Represents a method that can be invoked by a bot.
@@ -33,14 +35,16 @@ public class BotMethod {
      * @param ignoreTypes An array of IgnoreType values indicating which types of messages should be ignored when invoking the method.
      * @param ignoreSenders An array of IgnoreSender values indicating which senders should be ignored when invoking the method.
      * @param type The type of method (e.g., UPDATE, MESSAGE).
+     * @param key A unique identifier for the bot method.
      */
-    public BotMethod(Method method, MethodSignature signature, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type) {
+    public BotMethod(Method method, MethodSignature signature, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type, String key) {
         this.method = method;
         this.signature = signature;
         this.inNewThread = inNewThread;
         this.ignoreTypes = ignoreTypes;
         this.ignoreSenders = ignoreSenders;
         this.type = type;
+        this.key = key;
     }
 
     /**
