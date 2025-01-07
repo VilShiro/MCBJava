@@ -33,5 +33,10 @@ public enum MethodType {
     /**
      * Represents a start method.
      */
-    START
+    START,
+
+    /**
+     * Represents a command method.
+     */
+    COMMAND
 }
