@@ -44,7 +44,7 @@ public abstract class Bot {
         setListener();
     }
 
-    protected Bot(Class<?> configurationClass) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    protected Bot(Class<?> configurationClass){
         setConfiguration(configurationClass);
         if (Objects.equals(configuration.getBotToken(), "")){
             throw new RuntimeException("Configuration bot token is null or empty");
@@ -106,8 +106,12 @@ public abstract class Bot {
         );
     }
 
-    public void setConfiguration(Class<?> clazz) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
-        configuration = new ConfigurationProcessor(clazz);
+    public void setConfiguration(Class<?> clazz){
+        try {
+            configuration = new ConfigurationProcessor(clazz);
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
         startCommand = configuration.getStartCommand();
     }
 
