@@ -2,9 +2,10 @@ package org.fbs.mcb.util;
 
 import org.fbs.mcb.annotation.Command;
 import org.fbs.mcb.annotation.Feedback;
-import org.fbs.mcb.annotation.IgnoreUpdateSender;
-import org.fbs.mcb.annotation.IgnoreUpdateType;
-import org.fbs.mcb.data.*;
+import org.fbs.mcb.data.BotMethod;
+import org.fbs.mcb.data.ClassReorder;
+import org.fbs.mcb.data.MethodSignature;
+import org.fbs.mcb.data.MethodType;
 import org.fbs.mcb.data.meta.Constants;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,76 +24,6 @@ import static org.fbs.mcb.util.MethodInvoker.hasDuplicate;
  * The class also handles ignoring update types and senders based on provided annotations.
  */
 public class MethodMapper {
-
-    private final List<IgnoreType> ignoreTypes = new ArrayList<>();
-    private final List<IgnoreSender> ignoreSenders = new ArrayList<>();
-
-    /**
-     * Adds an ignore type to the list of ignored update types.
-     *
-     * @param type The ignore type to be added.
-     */
-    public void addIgnoreType(IgnoreType type){
-        if (!ignoreTypes.contains(type)) {
-            ignoreTypes.add(type);
-        }
-    }
-
-    /**
-     * Adds an ignore sender to the list of ignored update senders.
-     *
-     * @param sender The ignore sender to be added.
-     */
-    public void addIgnoreSender(IgnoreSender sender){
-        if (!ignoreSenders.contains(sender)) {
-            ignoreSenders.add(sender);
-        }
-    }
-
-    /**
-     * Removes an ignore type from the list of ignored update types.
-     *
-     * @param type The ignore type to be removed.
-     */
-    public void removeIgnoreType(IgnoreType type){
-        ignoreTypes.remove(type);
-    }
-
-    /**
-     * Removes an ignore sender from the list of ignored update senders.
-     *
-     * @param sender The ignore sender to be removed.
-     */
-    public void removeIgnoreSender(IgnoreSender sender){
-        ignoreSenders.remove(sender);
-    }
-
-    /**
-     * Default constructor. Initializes empty lists for ignore types and senders.
-     */
-    public MethodMapper(){}
-
-    /**
-     * Constructor that initializes ignore types and senders based on provided annotations.
-     *
-     * @param ignoreUpdateType The annotation specifying the ignore update types.
-     * @param ignoreUpdateSender The annotation specifying the ignore update senders.
-     */
-    public MethodMapper(IgnoreUpdateType ignoreUpdateType, IgnoreUpdateSender ignoreUpdateSender){
-        if (ignoreUpdateType != null){
-            IgnoreType[] ignoreTypes = ignoreUpdateType.value();
-            for (IgnoreType type: ignoreTypes){
-                addIgnoreType(type);
-            }
-        }
-
-        if (ignoreUpdateSender != null){
-            IgnoreSender[] ignoreSenders = ignoreUpdateSender.value();
-            for (IgnoreSender sender: ignoreSenders){
-                addIgnoreSender(sender);
-            }
-        }
-    }
 
     /**
      * Reads methods from the configuration class and save them to {@link BotMethod} objects.
@@ -125,8 +56,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.UPDATE,
                                     "update",
                                     new ClassReorder(
@@ -140,8 +69,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.START,
                                     processor.getStartCommand(),
                                     new ClassReorder(
@@ -155,8 +82,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.INLINE_QUERY,
                                     "inline_query",
                                     new ClassReorder(
@@ -170,8 +95,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.CALLBACK_QUERY,
                                     "callback_query",
                                     new ClassReorder(
@@ -185,8 +108,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.MESSAGE,
                                     "message",
                                     new ClassReorder(
@@ -200,8 +121,6 @@ public class MethodMapper {
                     botMethods.add(
                             new BotMethod(method,
                                     processor.isThreadSeparation(),
-                                    ignoreTypes.toArray(new IgnoreType[0]),
-                                    ignoreSenders.toArray(new IgnoreSender[0]),
                                     MethodType.ENTITIES,
                                     "entities",
                                     new ClassReorder(
@@ -222,8 +141,6 @@ public class MethodMapper {
             botMethods.add(
                     new BotMethod(command,
                             processor.isThreadSeparation(),
-                            ignoreTypes.toArray(new IgnoreType[0]),
-                            ignoreSenders.toArray(new IgnoreSender[0]),
                             MethodType.COMMAND,
                             command.getAnnotation(Command.class).value(),
                             new ClassReorder(

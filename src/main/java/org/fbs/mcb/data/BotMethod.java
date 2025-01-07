@@ -15,11 +15,7 @@ public class BotMethod {
     private final Method method;
     private final boolean inNewThread;
     private final ClassReorder reorder;
-    
-    @Getter
-    private final IgnoreType[] ignoreTypes;
-    @Getter
-    private final IgnoreSender[] ignoreSenders;
+
     @Getter
     private final MethodType type;
     @Getter
@@ -30,17 +26,13 @@ public class BotMethod {
      *
      * @param method The method to be associated with this BotMethod instance.
      * @param inNewThread Indicates whether the method should be invoked in a new thread.
-     * @param ignoreTypes An array of IgnoreType values indicating which types of messages should be ignored when invoking the method.
-     * @param ignoreSenders An array of IgnoreSender values indicating which senders should be ignored when invoking the method.
      * @param type The type of method (e.g., UPDATE, MESSAGE).
      * @param key A unique identifier for the bot method.
      * @param reorder An instance of ClassReorder to handle class reordering.
      */
-    public BotMethod(Method method, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type, String key, ClassReorder reorder) {
+    public BotMethod(Method method, boolean inNewThread, MethodType type, String key, ClassReorder reorder) {
         this.method = method;
         this.inNewThread = inNewThread;
-        this.ignoreTypes = ignoreTypes;
-        this.ignoreSenders = ignoreSenders;
         this.type = type;
         this.key = key;
         this.reorder = reorder;
