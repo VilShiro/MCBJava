@@ -16,6 +16,7 @@ public class BotMethod {
     private final Method method;
     private final MethodSignature signature;
     private final boolean inNewThread;
+    private final ClassReorder reorder;
     
     @Getter
     private final IgnoreType[] ignoreTypes;
@@ -36,8 +37,9 @@ public class BotMethod {
      * @param ignoreSenders An array of IgnoreSender values indicating which senders should be ignored when invoking the method.
      * @param type The type of method (e.g., UPDATE, MESSAGE).
      * @param key A unique identifier for the bot method.
+     * @param reorder An instance of ClassReorder to handle class reordering.
      */
-    public BotMethod(Method method, MethodSignature signature, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type, String key) {
+    public BotMethod(Method method, MethodSignature signature, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type, String key, ClassReorder reorder) {
         this.method = method;
         this.signature = signature;
         this.inNewThread = inNewThread;
@@ -45,6 +47,7 @@ public class BotMethod {
         this.ignoreSenders = ignoreSenders;
         this.type = type;
         this.key = key;
+        this.reorder = reorder;
     }
 
     /**
@@ -64,7 +67,7 @@ public class BotMethod {
                             method,
                             MethodInvoker.isStatic(method),
                             configObject,
-                            MethodInvoker.getParamsByClasses(List.of(signature.parameterTypes()), arguments));
+                            reorder.getMapped(args));
                 } catch (InvocationTargetException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }
@@ -75,7 +78,7 @@ public class BotMethod {
                     method,
                     MethodInvoker.isStatic(method),
                     configObject,
-                    MethodInvoker.getParamsByClasses(List.of(signature.parameterTypes()), arguments));
+                    reorder.getMapped(args));
         }
     }
 
