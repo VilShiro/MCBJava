@@ -16,4 +16,9 @@ public @interface Command {
      */
     String value();
 
+    /**
+     * Indicates whether the command, when called, can contain a line after itself, according to the standard false
+     */
+    boolean additionalString() default false;
+
 }
