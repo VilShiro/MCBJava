@@ -3,7 +3,10 @@ package org.fbs.mcb.util;
 import com.pengrad.telegrambot.model.Update;
 import lombok.Getter;
 import org.fbs.mcb.annotation.BotConfiguration;
+import org.fbs.mcb.data.BotMethod;
+import org.fbs.mcb.data.BotMethodSet;
 import org.fbs.mcb.data.entity.Bot;
+import org.fbs.mcb.data.meta.Constants;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
@@ -47,6 +50,23 @@ public class ConfigurationProcessor {
     private final BotConfiguration configuration;
 
     /**
+     * Holds the reference to the {@link UpdateManager} instance responsible for managing and processing updates.
+     * This instance is created during the construction of the {@link ConfigurationProcessor} instance.
+     *
+     * @see UpdateManager
+     */
+    private final UpdateManager updateManager;
+
+    /**
+     * Holds the reference to the set of bot methods associated with the configuration.
+     *
+     * @see BotMethodSet
+     * @see MethodMapper
+     */
+    @Getter
+    private final BotMethodSet methodSet;
+
+    /**
      * Constructs a new instance of AnnotationHandler for the specified class.
      *
      * @param configurationClass the class for which the AnnotationHandler will be created.
@@ -65,14 +85,34 @@ public class ConfigurationProcessor {
             else {
                 configurationObject = null;
             }
+            methodSet = new BotMethodSet(this);
+            updateManager = new UpdateManager(this);
+            MethodMapper mapper = new MethodMapper();
+            for (BotMethod method: mapper.readMethods(this, Constants.getAllUniqueClasses())){
+                methodSet.addMethod(method);
+            }
         }
         else {
             throw new IllegalArgumentException("The specified class does not have the BotConfiguration annotation");
         }
     }
 
-    public void handle(Update update, Bot bot) throws InvocationTargetException, IllegalAccessException {
-        new UpdateManager(this).processUpdate(update, bot, configurationObject);
+    /**
+     * Processes the given update and associates it with the specified bot.
+     * This method delegates the processing to the {@link UpdateManager} instance.
+     *
+     * @param update the update to be processed, must not be null
+     * @param bot the bot associated with the update, must not be null
+     *
+     * @throws InvocationTargetException if an error occurs during the invocation of a method
+     * @throws IllegalAccessException if the method is not accessible
+     *
+     * @see Update
+     * @see Bot
+     * @see UpdateManager#processUpdate(Update, Bot)
+     */
+    public void handle(@NotNull Update update, @NotNull Bot bot) throws InvocationTargetException, IllegalAccessException {
+        updateManager.processUpdate(update, bot);
     }
 
     /**
@@ -86,7 +126,7 @@ public class ConfigurationProcessor {
      * @throws NoSuchMethodException if the class does not have a default constructor
      */
     @NotNull
-    public static Object createObject(@NotNull Class<?> clazz) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    private static Object createObject(@NotNull Class<?> clazz) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Constructor<?> constructor = clazz.getDeclaredConstructor();
         constructor.setAccessible(true);
         return constructor.newInstance();
