@@ -27,6 +27,13 @@ public class ConfigurationProcessor {
     @Getter
     private final Object configurationObject;
 
+    /**
+     * Holds the reference to the class specified in the constructor.
+     * This class is used to create configuration objects based on the specified class and its annotations.
+     *
+     * @see ConfigurationProcessor#ConfigurationProcessor(Class)
+     * @see BotConfiguration
+     */
     @Getter
     private final Class<?> configurationClass;
 
