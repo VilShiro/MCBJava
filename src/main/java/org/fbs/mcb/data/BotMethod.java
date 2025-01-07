@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Represents a method that can be invoked by a bot.
@@ -59,7 +58,6 @@ public class BotMethod {
      * @throws IllegalAccessException   If the method invocation is not allowed.
      */
     public void invoke(Object configObject, @NotNull Object ... args) throws InvocationTargetException, IllegalAccessException {
-        List<Object> arguments = List.of(args);
         if (inNewThread) {
             new Thread(() -> {
                 try {
