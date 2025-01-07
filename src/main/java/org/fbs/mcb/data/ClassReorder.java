@@ -37,6 +37,9 @@ public class ClassReorder {
 
     public Object[] getMapped(Object ... args){
         Object[] out = new Object[output.length];
+        if (args.length != input.length){
+            throw new IllegalArgumentException("Input array must have the same length as the output array.");
+        }
         for (int i = 0; i < input.length; i++){
             IndexPair pair = pairList.get(i);
             if (pair.outputIndex() != -1){
