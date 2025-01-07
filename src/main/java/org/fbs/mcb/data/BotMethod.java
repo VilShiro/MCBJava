@@ -1,5 +1,6 @@
 package org.fbs.mcb.data;
 
+import lombok.Getter;
 import org.fbs.mcb.util.MethodInvoker;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,18 +16,31 @@ public class BotMethod {
     private final Method method;
     private final MethodSignature signature;
     private final boolean inNewThread;
-
+    
+    @Getter
+    private final IgnoreType[] ignoreTypes;
+    @Getter
+    private final IgnoreSender[] ignoreSenders;
+    @Getter
+    private final MethodType type;
+    
     /**
-     * Constructs a new BotMethod instance.
+     * Represents a method that can be invoked by a bot.
      *
-     * @param method       The method to be invoked.
-     * @param signature    The method's signature.
-     * @param inNewThread  Whether the method should be invoked in a new thread.
+     * @param method The method to be associated with this BotMethod instance.
+     * @param signature The signature of the method.
+     * @param inNewThread Indicates whether the method should be invoked in a new thread.
+     * @param ignoreTypes An array of IgnoreType values indicating which types of messages should be ignored when invoking the method.
+     * @param ignoreSenders An array of IgnoreSender values indicating which senders should be ignored when invoking the method.
+     * @param type The type of method (e.g., UPDATE, MESSAGE).
      */
-    public BotMethod(Method method, MethodSignature signature, boolean inNewThread) {
+    public BotMethod(Method method, MethodSignature signature, boolean inNewThread, IgnoreType[] ignoreTypes, IgnoreSender[] ignoreSenders, MethodType type) {
         this.method = method;
         this.signature = signature;
         this.inNewThread = inNewThread;
+        this.ignoreTypes = ignoreTypes;
+        this.ignoreSenders = ignoreSenders;
+        this.type = type;
     }
 
     /**
