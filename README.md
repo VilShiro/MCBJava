@@ -17,14 +17,19 @@
 > _Publishing to Maven Central with version 2.0 release_
 
 <!-- TOC -->
-* [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
-  * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
-  * [@Feedback annotation](#feedback-annotation)
-  * [@Command annotation](#command-annotation)
-  * [Priorities](#priorities)
-* [Prospect](#prospect)
-* [Thanks](#thanks)
+  * [Installation](#installation)
+  * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
+    * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
+    * [@Feedback annotation](#feedback-annotation)
+    * [@Command annotation](#command-annotation)
+    * [Priorities](#priorities)
+  * [Prospect](#prospect)
+  * [Thanks](#thanks)
 <!-- TOC -->
+
+## Installation
+
+> _On version 2.0 release_
 
 ## Get started(Only for Bot class)
 
@@ -63,23 +68,23 @@ Additional BotConfiguration parameters:
 
 ### @Feedback annotation
 
-Create a function that returns a value of type `void` with any access and static modifier, add to the parameters any set of parameters available for this function
+Create a function that returns a value of type `void` with any access and a static modifier, add the [`@Feedback`](src/main/java/org/fbs/mcb/annotation/Feedback.java) annotation, add any set of parameters available for this function.
 
 ```java
 @BotConfiguration(botToken = "your token")
 public class MyConfig {
 
-    @Feedback(type = "update")
+    @Feedback("update")
     public void onUpdate() {
         // parse your update here
     }
 
-    @Feedback(type = "message")
+    @Feedback("message")
     private static void message(Bot bot) {
         // also parse messages here
     }
 
-    @Feedback(type = "start")
+    @Feedback("start")
     private void runBot(Message message, Bot bot) {
         // code here
     }
@@ -87,31 +92,32 @@ public class MyConfig {
 }
 ```
 
-Parameter sets for update processing functions
+Parameter sets for update processing functions [Constants.java](src/main/java/org/fbs/mcb/data/meta/Constants.java)
 
-| type           | parameter set(classes)                                                                                                 |
-|----------------|------------------------------------------------------------------------------------------------------------------------|
-| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                     |
-| start          | com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
-| message        | com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
-| entities       | com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
-| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, org.fbs.mcb.form.**Bot**                                              |
-| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, org.fbs.mcb.form.**Bot**                                                |
+| type           | parameter set(classes)                                                                                                                                                           |
+|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                                                               |
+| start          | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                                    |
+| message        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
+| entities       | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                 |
+| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                              |
+| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                |
+| command        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                 |
 
 ### @Command annotation
 
-Create a function that returns a value of type `void` of any access and static modifier, add the `@Command` annotation and with the `command` parameter specify the command that will be called when sent
+Create a function that returns a value of type `void` of any access and static modifier, add the [`@Command`](src/main/java/org/fbs/mcb/annotation/Command.java) annotation and with the `command` parameter specify the command that will be called when sent
 
 ```java
 @BotConfiguration(botToken = "your token")
 public class MyConfig {
 
-    @Command(command = "/help")
+    @Command("/help")
     private void help(Bot bot) {
         // realize algorithm here
     }
 
-    @Command(command = "/exit")
+    @Command("/exit")
     public static void save(Message message){
         // saving logic...
     }
@@ -119,7 +125,7 @@ public class MyConfig {
 }
 ```
 
-Command functions have the same parameter sets as `@Feedback(type = "entities")`, but without MessageEntities array
+Command functions have the same parameter sets as `@Feedback("entities")`, but without MessageEntities array
 
 ### Priorities
 
