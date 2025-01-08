@@ -1,6 +1,6 @@
 <div align = "center">
   <h1>MCB - Multi Client Bot</h1>
-  <img src="Logo.png" alt="" height="245"/>
+  <img src="Logo.png" alt="" height="205"/>
   <p></p>
   <a href="https://github.com/VilShiro/MCBJava/releases/latest">
     <img src="https://img.shields.io/github/release/VilShiro/MCBJava.svg?style=flat" alt="">
@@ -127,10 +127,11 @@ Command functions have the same parameter sets as `@Feedback(type = "entities")`
 
 ## Prospect
 
-[-] Add a buffer of processed methods for faster response to updates
-[-] Ignoring individual senders
-[-] Implementation of multi-user functionality
-[-] Possibility of implementing third-party Telegram Bot API
+- [X] Add a buffer of processed methods for faster response to updates
+- [ ] ~~Ignoring individual senders~~ (_Removed in branches_)
+- [ ] Implementation of multi-user functionality
+- [ ] Possibility of implementing third-party Telegram Bot API
+- [ ] Increase the autonomy of each element
 
 ## Thanks
 - IDE [Intellij Idea](https://www.jetbrains.com/idea/)
