@@ -29,7 +29,18 @@
 
 ## Installation
 
-> _On version 2.0 release_
+> _Version 1.5.x early access_
+
+Maven
+```xml
+<dependency>
+    <groupId>io.github.vilshiro</groupId>
+    <artifactId>mcb</artifactId>
+    <version>1.5.1</version>
+</dependency>
+```
+
+[Maven Central Repository](https://central.sonatype.com/artifact/io.github.vilshiro/mcb/overview)
 
 ## Get started(Only for Bot class)
 
