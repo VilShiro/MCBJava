@@ -22,6 +22,7 @@
     * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
     * [@Feedback annotation](#feedback-annotation)
     * [@Command annotation](#command-annotation)
+    * [Bugs](#bugs)
     * [Priorities](#priorities)
   * [Prospect](#prospect)
   * [Thanks](#thanks)
@@ -137,6 +138,10 @@ public class MyConfig {
 ```
 
 Command functions have the same parameter sets as `@Feedback("entities")`, but without MessageEntities array
+
+### Bugs
+
+- Annotated methods fire twice when used as a bean in a Spring application (Possible workaround: use additional @Lazy annotation)
 
 ### Priorities
 
