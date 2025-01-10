@@ -1,8 +1,9 @@
 package org.fbs.mcb.util;
 
 import com.pengrad.telegrambot.model.Update;
-import lombok.Getter;
 import org.fbs.mcb.annotation.BotConfiguration;
+import org.fbs.mcb.annotation.Command;
+import org.fbs.mcb.annotation.Feedback;
 import org.fbs.mcb.data.BotMethod;
 import org.fbs.mcb.data.BotMethodSet;
 import org.fbs.mcb.data.entity.Bot;
@@ -27,7 +28,6 @@ public class ConfigurationProcessor {
      *
      * @see BotConfiguration#staticBuild()
      */
-    @Getter
     private final Object configurationObject;
 
     /**
@@ -37,7 +37,6 @@ public class ConfigurationProcessor {
      * @see ConfigurationProcessor#ConfigurationProcessor(Class)
      * @see BotConfiguration
      */
-    @Getter
     private final Class<?> configurationClass;
 
     /**
@@ -63,7 +62,6 @@ public class ConfigurationProcessor {
      * @see BotMethodSet
      * @see MethodMapper
      */
-    @Getter
     private final BotMethodSet methodSet;
 
     /**
@@ -130,6 +128,54 @@ public class ConfigurationProcessor {
         Constructor<?> constructor = clazz.getDeclaredConstructor();
         constructor.setAccessible(true);
         return constructor.newInstance();
+    }
+
+    /**
+     * Retrieves the configuration object created from the specified class.
+     * If the {@link BotConfiguration#staticBuild()} is set to true, this method will return null.
+     * Otherwise, it will return the initialized configuration object during the construction of the
+     * {@link ConfigurationProcessor} instance.
+     *
+     * @return the configuration object created from the specified class.
+     * If the {@link BotConfiguration#staticBuild()} is set to true or if the specified class is not
+     * assignable from {@link Bot}, this method will return null.
+     *
+     * @see BotConfiguration#staticBuild()
+     * @see Bot
+     * @see ConfigurationProcessor
+     */
+    public Object getConfigurationObject() {
+        return configurationObject;
+    }
+
+    /**
+     * Retrieves the class specified in the constructor of the ConfigurationProcessor.
+     * This class is used to create configuration objects based on the specified class and its annotations.
+     *
+     * @return the class specified in the constructor of the ConfigurationProcessor.
+     *
+     * @see ConfigurationProcessor#ConfigurationProcessor(Class)
+     * @see BotConfiguration
+     */
+    public Class<?> getConfigurationClass() {
+        return configurationClass;
+    }
+
+    
+    /**
+     * Retrieves the set of bot methods associated with the configuration.
+     * The bot methods are mapped from the classes and methods annotated with the {@link Feedback} or {@link Command} annotation.
+     *
+     * @return the set of bot methods associated with the configuration.
+     * The returned {@link BotMethodSet} object contains all the bot methods that have been mapped from the specified classes.
+     *
+     * @see BotMethodSet
+     * @see Feedback
+     * @see Command
+     * @see MethodMapper
+     */
+    public BotMethodSet getMethodSet() {
+        return methodSet;
     }
 
     /**

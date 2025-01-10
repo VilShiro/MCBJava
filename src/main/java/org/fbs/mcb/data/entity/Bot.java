@@ -3,7 +3,6 @@ package org.fbs.mcb.data.entity;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.*;
-import lombok.Getter;
 import org.fbs.mcb.util.ConfigurationProcessor;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,7 +11,6 @@ import java.util.Objects;
 
 public abstract class Bot {
 
-    @Getter
     private final TelegramBot bot;
 
     private ConfigurationProcessor configuration;
@@ -104,6 +102,10 @@ public abstract class Bot {
                 }
             }
         );
+    }
+
+    public TelegramBot getBot() {
+        return bot;
     }
 
     public void setConfiguration(Class<?> clazz){

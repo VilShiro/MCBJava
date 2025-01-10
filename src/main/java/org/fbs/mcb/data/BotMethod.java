@@ -1,6 +1,5 @@
 package org.fbs.mcb.data;
 
-import lombok.Getter;
 import org.fbs.mcb.util.MethodInvoker;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,9 +15,7 @@ public class BotMethod {
     private final boolean inNewThread;
     private final ClassReorder reorder;
 
-    @Getter
     private final MethodType type;
-    @Getter
     private final String key;
     
     /**
@@ -67,6 +64,24 @@ public class BotMethod {
                     configObject,
                     reorder.getMapped(args));
         }
+    }
+
+    /**
+     * Returns the type of method associated with this BotMethod instance.
+     *
+     * @return The type of method (e.g., UPDATE, MESSAGE).
+     */
+    public MethodType getType() {
+        return type;
+    }
+
+    /**
+     * Returns the unique identifier associated with this BotMethod instance.
+     *
+     * @return The unique identifier for the bot method.
+     */
+    public String getKey() {
+        return key;
     }
 
 }
