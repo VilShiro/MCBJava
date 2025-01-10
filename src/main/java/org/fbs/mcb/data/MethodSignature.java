@@ -33,7 +33,7 @@ public record MethodSignature(Class<?> returnType, Class<?>... parameterTypes) {
      */
     public boolean checkMethodSignature(@NotNull Method method) {
         return ClassUtil.isAssignableFrom(method.getReturnType(), returnType) &&
-                checkParameter(method);
+                checkParameters(method);
     }
 
     /**
@@ -72,7 +72,7 @@ public record MethodSignature(Class<?> returnType, Class<?>... parameterTypes) {
      *
      * @throws ArrayIndexOutOfBoundsException If the number of parameters in the method does not match the number of parameter types in the current instance.
      */
-    private boolean checkParameter(@NotNull Method method){
+    public boolean checkParameters(@NotNull Method method){
         Class<?>[] params = method.getParameterTypes();
         for (int i = 0; i < params.length; i++){
             try {

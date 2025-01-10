@@ -168,7 +168,7 @@ public class MethodMapper {
         if (!hasDuplicate(List.of(argsClasses))){
             for (List<Class<?>> classes: generateAllSubsetsWithPermutations(argsClasses2)){
                 MethodSignature signature = new MethodSignature(void.class, classes.toArray(new Class[0]));
-                if (signature.checkMethodSignature(method)){
+                if (signature.checkParameters(method)){
                     return signature;
                 }
             }

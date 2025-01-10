@@ -41,7 +41,7 @@ public class MethodInvoker {
         if (!hasDuplicate(classList)){
             for (List<Class<?>> classes: generateAllSubsetsWithPermutations(classList)){
                 MethodSignature signature = new MethodSignature(void.class, classes.toArray(new Class[0]));
-                if (signature.checkMethodSignature(method)){
+                if (signature.checkParameters(method)){
                     invokeMethod(method, onlyStatic, configurationObject, getParamsByClasses(classes, List.of(args)));
                     return;
                 }
