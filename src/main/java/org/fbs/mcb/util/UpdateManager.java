@@ -62,30 +62,72 @@ public class UpdateManager {
         }
     }
 
+    /**
+     * Parses and processes the command received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void commandParse(Update update, Bot bot) {
         processor.getMethodSet().callCommands(update.message(), update.message().entities(), update, bot);
     }
 
+    /**
+     * Parses and processes the inline query received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void inlineQueryParse(Update update, Bot bot) {
         processor.getMethodSet().callInlineQuery(update.inlineQuery(), update, bot);
     }
 
+    /**
+     * Parses and processes the callback query received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void callbackQueryParse(Update update, Bot bot) {
         processor.getMethodSet().callCallbackQuery(update.callbackQuery(), update, bot);
     }
 
+    /**
+     * Parses and processes the start command received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void onStartCommand(Update update, Bot bot) {
         processor.getMethodSet().callStart(update, update.message(), bot);
     }
 
+    /**
+     * Parses and processes the entities received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void entitiesParse(Update update, Bot bot) {
         processor.getMethodSet().callEntities(update.message(), update.message().entities(), update, bot);
     }
 
+    /**
+     * Parses and processes the message received in a Telegram update.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void parseMessage(Update update, Bot bot) {
         processor.getMethodSet().callMessage(update, update.message(), bot);
     }
 
+    /**
+     * Parses and processes the general update received from a Telegram bot.
+     *
+     * @param update The received update from Telegram.
+     * @param bot The Bot entity associated with the update.
+     */
     public void updateParse(Update update, Bot bot) {
         processor.getMethodSet().callUpdate(update, bot);
     }

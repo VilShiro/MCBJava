@@ -3,6 +3,9 @@ package org.fbs.mcb.data.client;
 import com.pengrad.telegrambot.model.User;
 import org.fbs.mcb.data.Action;
 
+/**
+ * Represents a client in the application.
+ */
 public class Client {
 
     private final User user;
@@ -14,6 +17,11 @@ public class Client {
     private final ClientThreads parsingThreadsInline;
     private final ClientThreads parsingThreadsStart;
 
+    /**
+     * Constructs a new Client object.
+     *
+     * @param user The Telegram user associated with this client.
+     */
     public Client(User user){
         this.user = user;
         parsingThreadsUpdates = new ClientThreads(user.id());
@@ -24,28 +32,40 @@ public class Client {
         parsingThreadsStart = new ClientThreads(user.id());
     }
 
+    /**
+     * Returns the Telegram user associated with this client.
+     *
+     * @return The Telegram user.
+     */
     public User getUser() {
         return user;
     }
 
+    /**
+     * Returns the client threads associated with the given action.
+     *
+     * @param action The action to get the threads for.
+     * @return The client threads associated with the given action.
+     */
     public ClientThreads getThreadsByAction(Action action){
-        switch (action){
-            case UPDATE:
-                return parsingThreadsUpdates;
-            case MESSAGE:
-                return parsingThreadsMessages;
-            case ENTITIES:
-                return parsingThreadsEntities;
-            case CALLBACK_QUERY:
-                return parsingThreadsCallbackBack;
-            case INLINE_QUERY:
-                return parsingThreadsInline;
-            case START:
-                return parsingThreadsStart;
-        }
-        return null;
+        return switch (action) {
+            case UPDATE -> parsingThreadsUpdates;
+            case MESSAGE -> parsingThreadsMessages;
+            case ENTITIES -> parsingThreadsEntities;
+            case CALLBACK_QUERY -> parsingThreadsCallbackBack;
+            case INLINE_QUERY -> parsingThreadsInline;
+            case START -> parsingThreadsStart;
+        };
     }
 
+    /**
+     * Returns a client thread associated with the given action and runnable.
+     * Removes all threads from the corresponding action and adds the given runnable.
+     *
+     * @param action The action to get the thread for.
+     * @param runnable The runnable to be executed in the thread.
+     * @return The client thread associated with the given action and runnable.
+     */
     public ClientThread getThreadByAction(Action action, Runnable runnable){
         switch (action){
             case UPDATE:
@@ -76,6 +96,11 @@ public class Client {
         return null;
     }
 
+    /**
+     * Returns the ID of the Telegram user associated with this client.
+     *
+     * @return The ID of the Telegram user.
+     */
     public long getId(){
         return user.id();
     }
