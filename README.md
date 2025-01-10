@@ -110,7 +110,7 @@ Parameter sets for update processing functions [Constants.java](src/main/java/or
 |----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                                                               |
 | start          | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                                    |
-| message        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
+| message        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
 | entities       | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                 |
 | callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                              |
 | inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                |
