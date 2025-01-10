@@ -1,12 +1,14 @@
 package org.fbs.mcb.util;
 
-import org.fbs.mcb.data.MethodSignature;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * A utility class for invoking methods with unknown arguments based on their class types.
@@ -19,40 +21,6 @@ public class MethodInvoker {
      * Private constructor to prevent instantiation of this utility class.
      */
     private MethodInvoker(){}
-
-    /**
-     * Invokes a method with unknown arguments based on their class types.
-     * <p>
-     * This method iterates through all possible subsets of the argument classes,
-     * checks if the method signature matches any of the subsets, and invokes the method
-     * with the corresponding arguments.
-     *
-     * @param method The method to be invoked.
-     * @param args The arguments to be passed to the method.
-     * @throws InvocationTargetException If the method invocation throws an exception.
-     * @throws IllegalAccessException If the method or its class is not accessible.
-     * @throws IllegalArgumentException If the method signature is not supported or if duplicate argument classes are annotated.
-     */
-    public static void invokeUnknownMethod(Method method, boolean onlyStatic, Object configurationObject, @NotNull Object ... args) throws InvocationTargetException, IllegalAccessException {
-        List<Class<?>> classList = new ArrayList<>();
-        for (Object arg: args){
-            classList.add(arg.getClass());
-        }
-        if (!hasDuplicate(classList)){
-            for (List<Class<?>> classes: generateAllSubsetsWithPermutations(classList)){
-                MethodSignature signature = new MethodSignature(void.class, classes.toArray(new Class[0]));
-                if (signature.checkParameters(method)){
-                    invokeMethod(method, onlyStatic, configurationObject, getParamsByClasses(classes, List.of(args)));
-                    return;
-                }
-            }
-            throw new IllegalArgumentException("Method signature are not supported: " + method.toGenericString() + ", supported elements of method signature: " + Arrays.toString(classList.toArray()));
-        }
-        else {
-            throw new IllegalArgumentException("Not annotated duplicate argument classes in method signature: " + method.toGenericString());
-        }
-    }
-
 
     /**
      * Retrieves an array of objects from the given list of classes and object list.
