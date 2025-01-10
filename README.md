@@ -10,20 +10,22 @@
   </a>
 </div>
 
-> _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-user multi-threaded work will be implemented._
+> _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-user multi-threaded work will be implemented_
 
-> _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible._
+> _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible_
 
 > _Publishing to Maven Central with version 2.0 release_
 
 <!-- TOC -->
   * [Installation](#installation)
   * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
-    * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
-    * [@Feedback annotation](#feedback-annotation)
-    * [@Command annotation](#command-annotation)
-    * [Bugs](#bugs)
-    * [Priorities](#priorities)
+    * [Old Variant](#old-variant)
+    * [Present variant](#present-variant)
+      * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
+      * [@Feedback annotation](#feedback-annotation)
+      * [@Command annotation](#command-annotation)
+  * [Bugs](#bugs)
+  * [Priorities](#priorities)
   * [Prospect](#prospect)
   * [Thanks](#thanks)
 <!-- TOC -->
@@ -45,7 +47,40 @@ Maven
 
 ## Get started(Only for Bot class)
 
-### Bot superclass and @BotConfiguration annotation
+### Old Variant
+
+Create a class that is a descendant of the class [`Bot`](src/main/java/org/fbs/mcb/data/entity/Bot.java) and override the necessary functions, the constructor accepts the bot token
+
+Use the `getBot()` command to get a bot instance
+
+MyBot.java
+
+```java
+public class MyBot extends Bot {
+    public MyBot() {
+        super("your token");
+    }
+
+    @Override
+    protected void updateParse(Update update) {
+        // your logic
+    }
+
+    @Override
+    protected void messageParse(Message message) {
+        // parsing the messages
+    }
+
+    @Override
+    protected void callbackQueryParse(CallbackQuery query) {
+        // callback data...
+    }
+}
+```
+
+### Present variant
+
+#### Bot superclass and @BotConfiguration annotation
 
 First, you must create a class that is a descendant of the Bot class and implement one of the constructors (recommended with a configuration class)
 
@@ -78,9 +113,10 @@ Additional BotConfiguration parameters:
 | doubleDispatch   | boolean | when disabled - updates come only to annotated functions, when enabled - to annotated functions and overridden ones                                                                                                          |
 | staticBuild      | boolean | does not create an instance of the configuration class within itself, the value is ignored if the `@BotConfiguration` annotation is on a class that is a descendant of the Bot class, only static functions will be executed |
 
-### @Feedback annotation
+#### @Feedback annotation
 
-Create a function that returns a value of type `void` with any access and a static modifier, add the [`@Feedback`](src/main/java/org/fbs/mcb/annotation/Feedback.java) annotation, add any set of parameters available for this function.
+Create any function, add the annotation [`@Feedback`](src/main/java/org/fbs/mcb/annotation/Feedback.java), add any set of parameters available for this function
+In the annotation, specify a string indicating the type of updates that it can process
 
 ```java
 @BotConfiguration(botToken = "your token")
@@ -106,19 +142,19 @@ public class MyConfig {
 
 Parameter sets for update processing functions [Constants.java](src/main/java/org/fbs/mcb/data/meta/Constants.java)
 
-| type           | parameter set(classes)                                                                                                                                                           |
-|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                                                               |
-| start          | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                                    |
-| message        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot** |
-| entities       | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                 |
-| callback_query | com.pengrad.telegrambot.model.**CallbackQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                              |
-| inline_query   | com.pengrad.telegrambot.model.**InlineQuery**, com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                |
-| command        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**MessageEntity**[], com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                 |
+| type           | parameter set(classes)                                                                                                                                           |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| update         | com.pengrad.telegrambot.model.**Update**, org.fbs.mcb.form.**Bot**                                                                                               |
+| start          | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
+| message        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, org.fbs.mcb.form.**Bot**                                                    |
+| entities       | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, com.pengrad.telegrambot.model.**MessageEntity**[], org.fbs.mcb.form.**Bot** |
+| callback_query | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**CallbackQuery**, org.fbs.mcb.form.**Bot**                                              |
+| inline_query   | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**InlineQuery**, org.fbs.mcb.form.**Bot**                                                |
+| command        | com.pengrad.telegrambot.model.**Update**, com.pengrad.telegrambot.model.**Message**, com.pengrad.telegrambot.model.**MessageEntity**[], org.fbs.mcb.form.**Bot** |
 
-### @Command annotation
+#### @Command annotation
 
-Create a function that returns a value of type `void` of any access and static modifier, add the [`@Command`](src/main/java/org/fbs/mcb/annotation/Command.java) annotation and with the `command` parameter specify the command that will be called when sent
+Create any function, add the annotation [`@Command`](src/main/java/org/fbs/mcb/annotation/Command.java), inside specify a line pointing to the command that is bound to this function
 
 ```java
 @BotConfiguration(botToken = "your token")
@@ -139,18 +175,17 @@ public class MyConfig {
 
 Command functions have the same parameter sets as `@Feedback("entities")`, but without MessageEntities array
 
-### Bugs
+## Bugs
 
 - Annotated methods fire twice when used as a bean in a Spring application (Possible workaround: use additional @Lazy annotation)
 
-### Priorities
+## Priorities
 
 - If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
 
 ## Prospect
 
 - [X] Add a buffer of processed methods for faster response to updates
-- [ ] ~~Ignoring individual senders~~ (_Removed in branches_)
 - [ ] Implementation of multi-user functionality
 - [ ] Possibility of implementing third-party Telegram Bot API
 - [ ] Increase the autonomy of each element
