@@ -39,7 +39,7 @@ Maven
 <dependency>
     <groupId>io.github.vilshiro</groupId>
     <artifactId>mcb</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.2</version>
 </dependency>
 ```
 

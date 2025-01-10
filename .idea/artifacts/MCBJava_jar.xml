@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="MCBJava:jar">
+  <artifact type="jar" build-on-make="true" name="MCBJava:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MCBJava_jar</output-path>
     <root id="archive" name="mcb-java.jar">
       <element id="module-output" name="MCBJava-core-quickstart" />
