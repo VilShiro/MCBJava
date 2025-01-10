@@ -120,6 +120,12 @@
           <target>17</target>
         </configuration>
       </plugin>
+<!--      lombok-->
+      <plugin>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>1.18.36</version>
+      </plugin>
     </plugins>
   </build>
 
