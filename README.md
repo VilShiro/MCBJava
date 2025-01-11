@@ -16,6 +16,8 @@
 
 > _Publishing to Maven Central with version 2.0 release_
 
+Please give my repository a ⭐, it will help me know that someone is using it
+
 <!-- TOC -->
   * [Installation](#installation)
   * [Get started(Only for Bot class)](#get-startedonly-for-bot-class)
