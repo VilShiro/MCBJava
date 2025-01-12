@@ -3,6 +3,7 @@ package org.fbs.mcb.data;
 import org.fbs.mcb.util.MethodInvoker;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -64,6 +65,21 @@ public class BotMethod {
                     configObject,
                     reorder.getMapped(args));
         }
+    }
+    
+    /**
+     * Retrieves the annotation of the specified type associated with the method.
+     *
+     * @param annotationClass The type of annotation to retrieve. This class must extend {@link Annotation}.
+     * @param <T> The type of annotation to retrieve.
+     *
+     * @return The annotation of the specified type associated with the method, or {@code null} if no such annotation is present.
+     *
+     * @throws IllegalArgumentException If the specified annotation class is not an annotation type.
+     * @throws SecurityException If a security manager, if present, denies reflective access to the method.
+     */
+    public <T extends Annotation> T getAnnotation(Class<T> annotationClass){
+        return method.getAnnotation(annotationClass);
     }
 
     /**
