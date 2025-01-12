@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import org.fbs.mcb.annotation.Command;
 import org.fbs.mcb.annotation.Feedback;
-import org.fbs.mcb.data.entity.Bot;
+import org.fbs.mcb.data.entity.AbstractBot;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void processUpdate(Update update, Bot bot){
+    public void processUpdate(Update update, AbstractBot<?> bot){
         updateParse(update, bot);
         if (update.message() != null && !Objects.equals(update.message().text(), "")){
             Message message = update.message();
@@ -68,8 +68,8 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void commandParse(Update update, Bot bot) {
-        processor.getMethodSet().callCommands(update.message(), update.message().entities(), update, bot);
+    public void commandParse(Update update, AbstractBot<?> bot) {
+        processor.getMethodSet().callCommands(update.message().text(), update.message(), update.message().entities(), update, bot);
     }
 
     /**
@@ -78,7 +78,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void inlineQueryParse(Update update, Bot bot) {
+    public void inlineQueryParse(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callInlineQuery(update.inlineQuery(), update, bot);
     }
 
@@ -88,7 +88,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void callbackQueryParse(Update update, Bot bot) {
+    public void callbackQueryParse(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callCallbackQuery(update.callbackQuery(), update, bot);
     }
 
@@ -98,7 +98,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void onStartCommand(Update update, Bot bot) {
+    public void onStartCommand(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callStart(update, update.message(), bot);
     }
 
@@ -108,7 +108,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void entitiesParse(Update update, Bot bot) {
+    public void entitiesParse(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callEntities(update.message(), update.message().entities(), update, bot);
     }
 
@@ -118,7 +118,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void parseMessage(Update update, Bot bot) {
+    public void parseMessage(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callMessage(update, update.message(), bot);
     }
 
@@ -128,7 +128,7 @@ public class UpdateManager {
      * @param update The received update from Telegram.
      * @param bot The Bot entity associated with the update.
      */
-    public void updateParse(Update update, Bot bot) {
+    public void updateParse(Update update, AbstractBot<?> bot) {
         processor.getMethodSet().callUpdate(update, bot);
     }
 

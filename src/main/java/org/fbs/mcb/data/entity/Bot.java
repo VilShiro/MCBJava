@@ -9,11 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
-public abstract class Bot {
-
-    private final TelegramBot bot;
-
-    private ConfigurationProcessor configuration;
+public class Bot extends AbstractBot<TelegramBot>{
 
     private String startCommand = "";
 
@@ -30,42 +26,41 @@ public abstract class Bot {
         else {
             startCommand = startCommandRaw;
         }
-
-        bot = new TelegramBot(botToken);
+        initBot(botToken);
+        setUpdateListeners();
         this.startCommand = startCommand;
-        setListener();
     }
 
     protected Bot(@NotNull String botToken){
-        bot = new TelegramBot(botToken);
+        initBot(botToken);
+        setUpdateListeners();
         startCommand = "/start";
-        setListener();
     }
 
     protected Bot(Class<?> configurationClass){
         setConfiguration(configurationClass);
-        if (Objects.equals(configuration.getBotToken(), "")){
+        if (Objects.equals(getConfiguration().getBotToken(), "")){
             throw new RuntimeException("Configuration bot token is null or empty");
         }
-        bot = new TelegramBot(configuration.getBotToken());
-        setListener();
+        initBot(configurationClass);
+        setUpdateListeners();
     }
 
-    private void setListener(){
-        bot.setUpdatesListener(list -> {
-
+    @Override
+    protected void setUpdateListeners() {
+        getBot().setUpdatesListener(list -> {
             Update lastUpdate = list.get(list.size()-1);
-            if (configuration != null) {
-                if (!configuration.isDoubleDispatch()) {
+            if (getConfiguration() != null) {
+                if (!getConfiguration().isDoubleDispatch()) {
                     try {
-                        configuration.handle(lastUpdate, this);
+                        getConfiguration().handle(lastUpdate, this);
                     } catch (InvocationTargetException | IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 } else {
 
                     try {
-                        configuration.handle(lastUpdate, this);
+                        getConfiguration().handle(lastUpdate, this);
                     } catch (InvocationTargetException | IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
@@ -104,17 +99,28 @@ public abstract class Bot {
         );
     }
 
-    public TelegramBot getBot() {
-        return bot;
+    @Override
+    protected void initBot(Object... args) {
+        if (args[0] instanceof Class<?>){
+            setConfiguration(args[0]);
+            setBot(new TelegramBot(getConfiguration().getBotToken()));
+        }
+        else if (args[0] instanceof String) {
+            setBot(new TelegramBot((String) args[0]));
+        }
     }
 
-    public void setConfiguration(Class<?> clazz){
-        try {
-            configuration = new ConfigurationProcessor(clazz);
-        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+    @Override
+    public void setConfiguration(Object ... args){
+        if (args[0] instanceof Class<?>) {
+            try {
+                setConfiguration(new ConfigurationProcessor((Class<?>) args[0]));
+            } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            startCommand = getConfiguration().getStartCommand();
         }
-        startCommand = configuration.getStartCommand();
     }
 
     protected void onStartCommand(Message message){}

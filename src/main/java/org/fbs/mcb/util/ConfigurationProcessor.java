@@ -6,6 +6,7 @@ import org.fbs.mcb.annotation.Command;
 import org.fbs.mcb.annotation.Feedback;
 import org.fbs.mcb.data.BotMethod;
 import org.fbs.mcb.data.BotMethodSet;
+import org.fbs.mcb.data.entity.AbstractBot;
 import org.fbs.mcb.data.entity.Bot;
 import org.fbs.mcb.data.meta.Constants;
 import org.jetbrains.annotations.NotNull;
@@ -107,9 +108,9 @@ public class ConfigurationProcessor {
      *
      * @see Update
      * @see Bot
-     * @see UpdateManager#processUpdate(Update, Bot)
+     * @see UpdateManager#processUpdate(Update, AbstractBot)
      */
-    public void handle(@NotNull Update update, @NotNull Bot bot) throws InvocationTargetException, IllegalAccessException {
+    public void handle(@NotNull Update update, @NotNull AbstractBot<?> bot) throws InvocationTargetException, IllegalAccessException {
         updateManager.processUpdate(update, bot);
     }
 

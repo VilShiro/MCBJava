@@ -187,7 +187,7 @@ Command functions have the same parameter sets as `@Feedback("entities")`, but w
 
 - [X] Add a buffer of processed methods for faster response to updates
 - [ ] Implementation of multi-user functionality
-- [ ] Possibility of implementing third-party Telegram Bot API
+- [X] Possibility of implementing third-party Telegram Bot API
 - [ ] Increase the autonomy of each element
 
 ## Thanks
