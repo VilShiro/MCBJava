@@ -23,34 +23,6 @@ public class MethodInvoker {
     private MethodInvoker(){}
 
     /**
-     * Retrieves an array of objects from the given list of classes and object list.
-     * The objects are selected based on their class types, and the order of the objects
-     * in the returned array matches the order of the classes in the given class list.
-     *
-     * @param classList A list of classes representing the types of the objects to be retrieved.
-     * @param objectList A list of objects from which to retrieve the objects.
-     * @return An array of objects selected based on their class types.
-     * @throws RuntimeException If the number of objects in the object list does not match
-     *                          the number of classes in the class list.
-     */
-    @NotNull
-    public static Object[] getParamsByClasses(@NotNull List<Class<?>> classList, @NotNull List<Object> objectList){
-        List<Object> objects = new ArrayList<>();
-        for (Class<?> clazz: classList){
-            for (Object o: objectList){
-                if (ClassUtil.isAssignableFrom(o.getClass(), clazz)){
-                    objects.add(o);
-                    break;
-                }
-            }
-        }
-        if (objects.size()!= classList.size()){
-            throw new RuntimeException("Not enough objects for the class list: " + classList);
-        }
-        return objects.toArray();
-    }
-
-    /**
      * Generates all possible permutations of the given list of classes, starting from the specified index.
      * The generated permutations are added to the given result list.
      *
