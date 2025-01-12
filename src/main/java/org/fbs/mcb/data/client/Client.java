@@ -10,12 +10,12 @@ public class Client {
 
     private final User user;
 
-    private final ClientThreads parsingThreadsUpdates;
-    private final ClientThreads parsingThreadsMessages;
-    private final ClientThreads parsingThreadsEntities;
-    private final ClientThreads parsingThreadsCallbackBack;
-    private final ClientThreads parsingThreadsInline;
-    private final ClientThreads parsingThreadsStart;
+    private final ClientThreadSet parsingThreadSetUpdates;
+    private final ClientThreadSet parsingThreadSetMessages;
+    private final ClientThreadSet parsingThreadSetEntities;
+    private final ClientThreadSet parsingThreadSetCallbackBack;
+    private final ClientThreadSet parsingThreadSetInline;
+    private final ClientThreadSet parsingThreadSetStart;
 
     /**
      * Constructs a new Client object.
@@ -24,12 +24,12 @@ public class Client {
      */
     public Client(User user){
         this.user = user;
-        parsingThreadsUpdates = new ClientThreads(user.id());
-        parsingThreadsMessages = new ClientThreads(user.id());
-        parsingThreadsEntities = new ClientThreads(user.id());
-        parsingThreadsCallbackBack = new ClientThreads(user.id());
-        parsingThreadsInline = new ClientThreads(user.id());
-        parsingThreadsStart = new ClientThreads(user.id());
+        parsingThreadSetUpdates = new ClientThreadSet(user.id());
+        parsingThreadSetMessages = new ClientThreadSet(user.id());
+        parsingThreadSetEntities = new ClientThreadSet(user.id());
+        parsingThreadSetCallbackBack = new ClientThreadSet(user.id());
+        parsingThreadSetInline = new ClientThreadSet(user.id());
+        parsingThreadSetStart = new ClientThreadSet(user.id());
     }
 
     /**
@@ -47,14 +47,14 @@ public class Client {
      * @param action The action to get the threads for.
      * @return The client threads associated with the given action.
      */
-    public ClientThreads getThreadsByAction(Action action){
+    public ClientThreadSet getThreadSetByAction(Action action){
         return switch (action) {
-            case UPDATE -> parsingThreadsUpdates;
-            case MESSAGE -> parsingThreadsMessages;
-            case ENTITIES -> parsingThreadsEntities;
-            case CALLBACK_QUERY -> parsingThreadsCallbackBack;
-            case INLINE_QUERY -> parsingThreadsInline;
-            case START -> parsingThreadsStart;
+            case UPDATE -> parsingThreadSetUpdates;
+            case MESSAGE -> parsingThreadSetMessages;
+            case ENTITIES -> parsingThreadSetEntities;
+            case CALLBACK_QUERY -> parsingThreadSetCallbackBack;
+            case INLINE_QUERY -> parsingThreadSetInline;
+            case START -> parsingThreadSetStart;
         };
     }
 
@@ -69,29 +69,29 @@ public class Client {
     public ClientThread getThreadByAction(Action action, Runnable runnable){
         switch (action){
             case UPDATE:
-                parsingThreadsUpdates.removeAllThreads();
-                parsingThreadsUpdates.addClientThread(runnable);
-                return parsingThreadsUpdates.get(parsingThreadsUpdates.size() - 1);
+                parsingThreadSetUpdates.removeAllThreads();
+                parsingThreadSetUpdates.addClientThread(runnable);
+                return parsingThreadSetUpdates.get(parsingThreadSetUpdates.size() - 1);
             case MESSAGE:
-                parsingThreadsMessages.removeAllThreads();
-                parsingThreadsMessages.addClientThread(runnable);
-                return parsingThreadsMessages.get(parsingThreadsMessages.size() - 1);
+                parsingThreadSetMessages.removeAllThreads();
+                parsingThreadSetMessages.addClientThread(runnable);
+                return parsingThreadSetMessages.get(parsingThreadSetMessages.size() - 1);
             case ENTITIES:
-                parsingThreadsEntities.removeAllThreads();
-                parsingThreadsEntities.addClientThread(runnable);
-                return parsingThreadsEntities.get(parsingThreadsEntities.size() - 1);
+                parsingThreadSetEntities.removeAllThreads();
+                parsingThreadSetEntities.addClientThread(runnable);
+                return parsingThreadSetEntities.get(parsingThreadSetEntities.size() - 1);
             case CALLBACK_QUERY:
-                parsingThreadsCallbackBack.removeAllThreads();
-                parsingThreadsCallbackBack.addClientThread(runnable);
-                return parsingThreadsCallbackBack.get(parsingThreadsCallbackBack.size() - 1);
+                parsingThreadSetCallbackBack.removeAllThreads();
+                parsingThreadSetCallbackBack.addClientThread(runnable);
+                return parsingThreadSetCallbackBack.get(parsingThreadSetCallbackBack.size() - 1);
             case INLINE_QUERY:
-                parsingThreadsInline.removeAllThreads();
-                parsingThreadsInline.addClientThread(runnable);
-                return parsingThreadsInline.get(parsingThreadsInline.size() - 1);
+                parsingThreadSetInline.removeAllThreads();
+                parsingThreadSetInline.addClientThread(runnable);
+                return parsingThreadSetInline.get(parsingThreadSetInline.size() - 1);
             case START:
-                parsingThreadsStart.removeAllThreads();
-                parsingThreadsStart.addClientThread(runnable);
-                return parsingThreadsStart.get(parsingThreadsStart.size() - 1);
+                parsingThreadSetStart.removeAllThreads();
+                parsingThreadSetStart.addClientThread(runnable);
+                return parsingThreadSetStart.get(parsingThreadSetStart.size() - 1);
         }
         return null;
     }

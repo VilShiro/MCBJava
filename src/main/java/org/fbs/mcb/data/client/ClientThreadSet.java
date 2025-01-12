@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * This class manages a collection of client threads associated with a specific user.
  */
-public class ClientThreads {
+public class ClientThreadSet {
 
     private final long userId;
     private final ArrayList<ClientThread> threads = new ArrayList<>();
@@ -15,7 +15,7 @@ public class ClientThreads {
      *
      * @param userId The unique identifier of the user.
      */
-    public ClientThreads(long userId){
+    public ClientThreadSet(long userId){
         this.userId = userId;
     }
 

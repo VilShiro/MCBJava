@@ -3,12 +3,13 @@ package org.fbs.mcb.data.entity;
 import com.pengrad.telegrambot.model.*;
 import org.fbs.mcb.data.Action;
 import org.fbs.mcb.data.client.Client;
-import org.fbs.mcb.data.client.ClientThreads;
+import org.fbs.mcb.data.client.ClientThreadSet;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class MultiClientBot extends Bot {
+public class MultiClientBot extends Bot {
 
     private final ArrayList<Client> clients = new ArrayList<>();
 
@@ -16,8 +17,16 @@ public abstract class MultiClientBot extends Bot {
         super(botToken, startCommandRaw);
     }
 
-    protected ClientThreads getThreadsByThreadsArr(long userId, ArrayList<ClientThreads> threadsArrayList){
-        for (ClientThreads threads : threadsArrayList) {
+    protected MultiClientBot(@NotNull String botToken) {
+        super(botToken);
+    }
+
+    protected MultiClientBot(Class<?> configurationClass) {
+        super(configurationClass);
+    }
+
+    protected ClientThreadSet getThreadsByThreadsArr(long userId, ArrayList<ClientThreadSet> threadsArrayList){
+        for (ClientThreadSet threads : threadsArrayList) {
             if (threads.getUserId() == userId) {
                 return threads;
             }
@@ -25,38 +34,38 @@ public abstract class MultiClientBot extends Bot {
         return null;
     }
 
-    protected ClientThreads getThreadsByAction(long userId, Action action){
-        return Objects.requireNonNull(getClientById(userId)).getThreadsByAction(action);
+    protected ClientThreadSet getThreadsByAction(long userId, Action action){
+        return Objects.requireNonNull(getClientById(userId)).getThreadSetByAction(action);
     }
 
-    protected ClientThreads getThreadsOnUpdate(long userId, ArrayList<ClientThreads> threads){
-        ClientThreads clientThreads = getThreadsByThreadsArr(userId, threads);
+    protected ClientThreadSet getThreadsOnUpdate(long userId, ArrayList<ClientThreadSet> threads){
+        ClientThreadSet clientThreadSet = getThreadsByThreadsArr(userId, threads);
 
-        if (clientThreads == null) {
-            threads.add(new ClientThreads(userId));
-            clientThreads = getThreadsByThreadsArr(userId, threads);
+        if (clientThreadSet == null) {
+            threads.add(new ClientThreadSet(userId));
+            clientThreadSet = getThreadsByThreadsArr(userId, threads);
         }
 
-        if (clientThreads.getUserId() == userId) {
-            for (int i = 0; i < clientThreads.size(); i++) {
-                clientThreads.removeClientThread(i);
+        if (clientThreadSet.getUserId() == userId) {
+            for (int i = 0; i < clientThreadSet.size(); i++) {
+                clientThreadSet.removeClientThread(i);
             }
         }
 
-        return clientThreads;
+        return clientThreadSet;
     }
 
-    protected abstract void callbackQueryParse(CallbackQuery query, Client client);
+    protected void callbackQueryParse(CallbackQuery query, Client client) {}
 
-    protected abstract void entitiesParse(MessageEntity[] messageEntities, Message message, Client client) ;
+    protected void entitiesParse(MessageEntity[] messageEntities, Message message, Client client) {}
 
-    protected abstract void inlineQueryParse(InlineQuery query, Client client);
+    protected void inlineQueryParse(InlineQuery query, Client client) {}
 
-    protected abstract void messageParse(Message message, Client client);
+    protected void messageParse(Message message, Client client) {}
 
-    protected abstract void onStartCommand(Message message, Client client);
+    protected void onStartCommand(Message message, Client client) {}
 
-    protected abstract void updateParse(Update update, Client client);
+    protected void updateParse(Update update, Client client) {}
 
     @Deprecated
     @Override
