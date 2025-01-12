@@ -46,7 +46,6 @@ public class Bot extends AbstractBot<TelegramBot>{
         setUpdateListeners();
     }
 
-    @Override
     protected void setUpdateListeners() {
         getBot().setUpdatesListener(list -> {
             Update lastUpdate = list.get(list.size()-1);
