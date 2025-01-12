@@ -1,7 +1,7 @@
 package org.fbs.mcb.data.client;
 
 import com.pengrad.telegrambot.model.User;
-import org.fbs.mcb.data.Action;
+import org.fbs.mcb.data.MethodType;
 
 /**
  * Represents a client in the application.
@@ -44,17 +44,18 @@ public class Client {
     /**
      * Returns the client threads associated with the given action.
      *
-     * @param action The action to get the threads for.
+     * @param type The action to get the threads for.
      * @return The client threads associated with the given action.
      */
-    public ClientThreadSet getThreadSetByAction(Action action){
-        return switch (action) {
+    public ClientThreadSet getThreadSetByAction(MethodType type){
+        return switch (type) {
             case UPDATE -> parsingThreadSetUpdates;
             case MESSAGE -> parsingThreadSetMessages;
             case ENTITIES -> parsingThreadSetEntities;
             case CALLBACK_QUERY -> parsingThreadSetCallbackBack;
             case INLINE_QUERY -> parsingThreadSetInline;
             case START -> parsingThreadSetStart;
+            case COMMAND -> null;
         };
     }
 
@@ -62,12 +63,12 @@ public class Client {
      * Returns a client thread associated with the given action and runnable.
      * Removes all threads from the corresponding action and adds the given runnable.
      *
-     * @param action The action to get the thread for.
+     * @param type The action to get the thread for.
      * @param runnable The runnable to be executed in the thread.
      * @return The client thread associated with the given action and runnable.
      */
-    public ClientThread getThreadByAction(Action action, Runnable runnable){
-        switch (action){
+    public ClientThread getThreadByAction(MethodType type, Runnable runnable){
+        switch (type){
             case UPDATE:
                 parsingThreadSetUpdates.removeAllThreads();
                 parsingThreadSetUpdates.addClientThread(runnable);

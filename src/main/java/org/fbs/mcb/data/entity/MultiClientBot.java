@@ -1,7 +1,7 @@
 package org.fbs.mcb.data.entity;
 
 import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.data.Action;
+import org.fbs.mcb.data.MethodType;
 import org.fbs.mcb.data.client.Client;
 import org.fbs.mcb.data.client.ClientThreadSet;
 import org.jetbrains.annotations.NotNull;
@@ -34,8 +34,8 @@ public class MultiClientBot extends Bot {
         return null;
     }
 
-    protected ClientThreadSet getThreadsByAction(long userId, Action action){
-        return Objects.requireNonNull(getClientById(userId)).getThreadSetByAction(action);
+    protected ClientThreadSet getThreadsByAction(long userId, MethodType type){
+        return Objects.requireNonNull(getClientById(userId)).getThreadSetByAction(type);
     }
 
     protected ClientThreadSet getThreadsOnUpdate(long userId, ArrayList<ClientThreadSet> threads){
