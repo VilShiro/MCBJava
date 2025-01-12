@@ -1,5 +1,6 @@
 package org.fbs.mcb.data;
 
+import org.fbs.mcb.annotation.Command;
 import org.fbs.mcb.util.ConfigurationProcessor;
 import org.jetbrains.annotations.NotNull;
 
@@ -184,10 +185,19 @@ public class BotMethodSet {
      * @throws RuntimeException if an error occurs while invoking a bot method. The exception will contain the
      *                          original cause of the error.
      */
-    public void callCommands(Object ... args){
+    public void callCommands(String message, Object ... args){
         for (BotMethod method : commandMethodList) {
             try {
-                method.invoke(processor.getConfigurationObject(), args);
+                if (method.getAnnotation(Command.class).additionalString()) {
+                    if (message.startsWith(method.getKey().strip())) {
+                        method.invoke(processor.getConfigurationObject(), args);
+                    }
+                }
+                else {
+                    if (message.strip().equals(method.getKey().strip())) {
+                        method.invoke(processor.getConfigurationObject(), args);
+                    }
+                }
             } catch (InvocationTargetException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
