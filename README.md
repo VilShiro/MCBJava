@@ -182,10 +182,6 @@ public class MyConfig {
 
 Command functions have the same parameter sets as `@Feedback("entities")`, but without MessageEntities array
 
-## Bugs
-
-- Annotated methods fire twice when used as a bean in a Spring application (Possible workaround: use additional @Lazy annotation)
-
 ## Priorities
 
 - If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
