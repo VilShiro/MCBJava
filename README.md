@@ -201,4 +201,3 @@ Command functions have the same parameter sets as `@Feedback("entities")`, but w
 - IDE [Intellij Idea](https://www.jetbrains.com/idea/)
 - Base [pengrad telegram bot api](https://github.com/pengrad/java-telegram-bot-api)
 - Tests [junit](https://github.com/junit-team/junit4)
-- Shortcuts [lombok](https://github.com/projectlombok/lombok)
