@@ -3,10 +3,10 @@
   <img src="Logo.png" alt="" height="205"/>
   <p></p>
   <a href="https://github.com/VilShiro/MCBJava/releases/latest">
-    <img src="https://img.shields.io/github/release/VilShiro/MCBJava.svg?style=flat" alt="">
-  </a>
-  <a href="https://github.com/VilShiro/MCBJava/releases/latest">
     <img src="https://img.shields.io/github/downloads/VilShiro/MCBJava/total.svg?style=flat" alt="">
+  </a>
+  <a href="https://central.sonatype.com/artifact/io.github.vilshiro/mcb/overview">
+    <img src="https://img.shields.io/maven-central/v/io.github.vilshiro/mcb.svg" alt="">
   </a>
 </div>
 
@@ -26,6 +26,7 @@ Please give my repository a ⭐, it will help me know that someone is using it
       * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
       * [@Feedback annotation](#feedback-annotation)
       * [@Command annotation](#command-annotation)
+      * [Launch(for both implementations)](#launchfor-both-implementations)
   * [Priorities](#priorities)
   * [Todo](#todo)
   * [Thanks](#thanks)
@@ -181,6 +182,16 @@ public class MyConfig {
 
 Command functions have the same parameter sets as `@Feedback("entities")`, but without MessageEntities array
 
+#### Launch(for both implementations)
+
+```java
+public class Main{
+    public static void main(String[] args) {
+        new MyBot();
+    }
+}
+```
+
 ## Priorities
 
 - If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
@@ -190,9 +201,9 @@ Command functions have the same parameter sets as `@Feedback("entities")`, but w
 - [X] Add a buffer of processed methods for faster response to updates
 - [ ] Implementation of multi-user functionality
 - [X] Possibility of implementing third-party Telegram Bot API
-- [ ] Increase the autonomy of each element
+- [X] Increase the autonomy of each element
 
 ## Thanks
 - IDE [Intellij Idea](https://www.jetbrains.com/idea/)
-- Base [pengrad telegram bot api](https://github.com/pengrad/java-telegram-bot-api)
+- Base bot realization [pengrad telegram bot api](https://github.com/pengrad/java-telegram-bot-api)
 - Tests [junit](https://github.com/junit-team/junit4)
