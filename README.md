@@ -26,7 +26,6 @@ Please give my repository a ⭐, it will help me know that someone is using it
       * [Bot superclass and @BotConfiguration annotation](#bot-superclass-and-botconfiguration-annotation)
       * [@Feedback annotation](#feedback-annotation)
       * [@Command annotation](#command-annotation)
-  * [Bugs](#bugs)
   * [Priorities](#priorities)
   * [Todo](#todo)
   * [Thanks](#thanks)
