@@ -9,18 +9,21 @@ import org.fbs.mcb.data.BotMethodSet;
 import org.fbs.mcb.data.entity.AbstractBot;
 import org.fbs.mcb.data.entity.Bot;
 import org.fbs.mcb.data.meta.Constants;
+import org.fbs.mcb.util.base.AbstractConfigurationProcessor;
+import org.fbs.mcb.util.base.AbstractMethodMapper;
+import org.fbs.mcb.util.base.AbstractUpdateManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import static org.fbs.mcb.util.AnnotationHandler.getAnnotation;
+import static org.fbs.mcb.util.AnnotationUtil.getAnnotation;
 
 /**
  * A class responsible for processing bot configuration settings and creating configuration objects.
  * The class uses reflection to instantiate objects based on the specified class and its annotations.
  */
-public class ConfigurationProcessor {
+public class ConfigurationProcessor extends AbstractConfigurationProcessor {
 
     /**
      * Holds the instance of the configuration object created from the specified class.
@@ -35,7 +38,7 @@ public class ConfigurationProcessor {
      * Holds the reference to the class specified in the constructor.
      * This class is used to create configuration objects based on the specified class and its annotations.
      *
-     * @see ConfigurationProcessor#ConfigurationProcessor(Class)
+     * @see ConfigurationProcessor#ConfigurationProcessor(Class, AbstractUpdateManager, AbstractMethodMapper)
      * @see BotConfiguration
      */
     private final Class<?> configurationClass;
@@ -55,7 +58,7 @@ public class ConfigurationProcessor {
      *
      * @see UpdateManager
      */
-    private final UpdateManager updateManager;
+    private final AbstractUpdateManager updateManager;
 
     /**
      * Holds the reference to the set of bot methods associated with the configuration.
@@ -74,7 +77,7 @@ public class ConfigurationProcessor {
      * @throws IllegalAccessException if the class or its default constructor is not accessible.
      * @throws NoSuchMethodException if the class does not have a default constructor.
      */
-    public ConfigurationProcessor(Class<?> configurationClass) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public ConfigurationProcessor(Class<?> configurationClass, AbstractUpdateManager updateManager, AbstractMethodMapper methodMapper) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         configuration = getAnnotation(configurationClass, BotConfiguration.class);
         this.configurationClass = configurationClass;
         if (configuration != null) {
@@ -85,9 +88,11 @@ public class ConfigurationProcessor {
                 configurationObject = null;
             }
             methodSet = new BotMethodSet(this);
-            updateManager = new UpdateManager(this);
-            MethodMapper mapper = new MethodMapper();
-            for (BotMethod method: mapper.readMethods(this, Constants.getAllUniqueClasses())){
+            this.updateManager = updateManager;
+            this.updateManager.setProcessor(this);
+
+            methodMapper.setProcessor(this);
+            for (BotMethod method: methodMapper.readMethods(this, Constants.getAllUniqueClasses())){
                 methodSet.addMethod(method);
             }
         }
@@ -96,21 +101,23 @@ public class ConfigurationProcessor {
         }
     }
 
-    /**
-     * Processes the given update and associates it with the specified bot.
-     * This method delegates the processing to the {@link UpdateManager} instance.
-     *
-     * @param update the update to be processed, must not be null
-     * @param bot the bot associated with the update, must not be null
-     *
-     * @throws InvocationTargetException if an error occurs during the invocation of a method
-     * @throws IllegalAccessException if the method is not accessible
-     *
-     * @see Update
-     * @see Bot
-     * @see UpdateManager#processUpdate(Update, AbstractBot)
-     */
-    public void handle(@NotNull Update update, @NotNull AbstractBot<?> bot) throws InvocationTargetException, IllegalAccessException {
+    @Override
+    public void handle(Object ... args){
+        Update update = null;
+        AbstractBot<?> bot = null;
+        if (args[0] instanceof Update){
+            update = (Update) args[0];
+        }
+        else {
+            throw new RuntimeException("This update handler must take a non-null Update value as its first argument");
+        }
+
+        if (args[1] instanceof AbstractBot<?>){
+            bot = (AbstractBot<?>) args[1];
+        }
+        else {
+            throw new RuntimeException("This update handler must take a non-null AbstractBot value as its second argument");
+        }
         updateManager.processUpdate(update, bot);
     }
 
@@ -155,7 +162,7 @@ public class ConfigurationProcessor {
      *
      * @return the class specified in the constructor of the ConfigurationProcessor.
      *
-     * @see ConfigurationProcessor#ConfigurationProcessor(Class)
+     * @see ConfigurationProcessor#ConfigurationProcessor(Class, AbstractUpdateManager, AbstractMethodMapper)
      * @see BotConfiguration
      */
     public Class<?> getConfigurationClass() {

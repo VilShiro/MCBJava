@@ -4,6 +4,8 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.*;
 import org.fbs.mcb.util.ConfigurationProcessor;
+import org.fbs.mcb.util.MethodMapper;
+import org.fbs.mcb.util.UpdateManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.InvocationTargetException;
@@ -113,7 +115,7 @@ public class Bot extends AbstractBot<TelegramBot>{
     public void setConfiguration(Object ... args){
         if (args[0] instanceof Class<?>) {
             try {
-                setConfiguration(new ConfigurationProcessor((Class<?>) args[0]));
+                setConfiguration(new ConfigurationProcessor((Class<?>) args[0], new UpdateManager(), new MethodMapper()));
             } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
                      NoSuchMethodException e) {
                 throw new RuntimeException(e);

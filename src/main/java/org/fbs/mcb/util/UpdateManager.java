@@ -2,63 +2,75 @@ package org.fbs.mcb.util;
 
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
-import org.fbs.mcb.annotation.Command;
-import org.fbs.mcb.annotation.Feedback;
 import org.fbs.mcb.data.entity.AbstractBot;
+import org.fbs.mcb.util.base.AbstractUpdateManager;
 
 import java.util.Objects;
 
 /**
  * The UpdateManager class is responsible for processing updates received from a Telegram bot.
- * It categorizes the update type and performs specific actions accordingly.
- * It utilizes reflection to invoke methods annotated with {@link Feedback} and {@link Command} annotations.
+ * It extends the AbstractUpdateManager class and provides methods for parsing and processing different types of updates.
  */
-public class UpdateManager {
+public class UpdateManager extends AbstractUpdateManager {
 
     /**
-     * The ConfigurationProcessor instance used for processing updates.
-     */
-    private final ConfigurationProcessor processor;
-
-    /**
-     * Constructs a new UpdateManager instance.
+     * Sets the ConfigurationProcessor for the UpdateManager.
+     * This method overrides the setProcessor method from the AbstractUpdateManager class.
      *
-     * @param processor The ConfigurationProcessor instance used for processing updates.
+     * @param processor The ConfigurationProcessor to be set for the UpdateManager.
+     *                  This processor will be used to handle and process updates received from the Telegram bot.
+     *
+     * @see AbstractUpdateManager#setProcessor(ConfigurationProcessor)
      */
-    public UpdateManager(ConfigurationProcessor processor) {
-        this.processor = processor;
+    @Override
+    public void setProcessor(ConfigurationProcessor processor) {
+        super.setProcessor(processor);
     }
-
 
     /**
      * Processes the received update from a Telegram bot.
-     * It categorizes the update type and performs specific actions accordingly.
      *
-     * @param update The received update from Telegram.
-     * @param bot The Bot entity associated with the update.
+     * @param args An array of objects containing the update and the associated bot.
+     *             The first element should be an instance of {@link Update}, and the second element should be an instance of {@link AbstractBot<?>}.
+     *             If the provided arguments do not match these types, the function will attempt to cast them accordingly.
+     *
+     * @throws NullPointerException If the update or bot is null.
      */
-    public void processUpdate(Update update, AbstractBot<?> bot){
+    @Override
+    public void processUpdate(Object ... args){
+        Update update = null;
+        AbstractBot<?> bot = null;
+        
+        if (args[0] instanceof Update){
+            update = (Update) args[0];
+        }
+        else {
+            throw new RuntimeException("This update handler must take a non-null Update value as its first argument");
+        }
+
+        if (args[1] instanceof AbstractBot<?>){
+            bot = (AbstractBot<?>) args[1];
+        }
+        else {
+            throw new RuntimeException("This update handler must take a non-null AbstractBot<?> value as its second argument");
+        }
+        
         updateParse(update, bot);
-        if (update.message() != null && !Objects.equals(update.message().text(), "")){
+        if (update.message() != null && !Objects.equals(update.message().text(), "")) {
             Message message = update.message();
             parseMessage(update, bot);
             try {
                 if (message.entities().length > 0) {
                     entitiesParse(update, bot);
                     if (message.text().startsWith("/")) {
-                        if (message.text().contains(processor.getStartCommand())) {
+                        if (message.text().contains(getProcessor().getStartCommand())) {
                             onStartCommand(update, bot);
                         }
                         commandParse(update, bot);
                     }
                 }
-            }catch (NullPointerException ignored){}
-        }
-        else if (update.callbackQuery() != null){
-            callbackQueryParse(update, bot);
-        }
-        else if (update.inlineQuery() != null) {
-            inlineQueryParse(update, bot);
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 
@@ -69,7 +81,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void commandParse(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callCommands(update.message().text(), update.message(), update.message().entities(), update, bot);
+        getProcessor().getMethodSet().callCommands(update.message().text(), update.message(), update.message().entities(), update, bot);
     }
 
     /**
@@ -79,7 +91,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void inlineQueryParse(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callInlineQuery(update.inlineQuery(), update, bot);
+        getProcessor().getMethodSet().callInlineQuery(update.inlineQuery(), update, bot);
     }
 
     /**
@@ -89,7 +101,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void callbackQueryParse(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callCallbackQuery(update.callbackQuery(), update, bot);
+        getProcessor().getMethodSet().callCallbackQuery(update.callbackQuery(), update, bot);
     }
 
     /**
@@ -99,7 +111,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void onStartCommand(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callStart(update, update.message(), bot);
+        getProcessor().getMethodSet().callStart(update, update.message(), bot);
     }
 
     /**
@@ -109,7 +121,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void entitiesParse(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callEntities(update.message(), update.message().entities(), update, bot);
+        getProcessor().getMethodSet().callEntities(update.message(), update.message().entities(), update, bot);
     }
 
     /**
@@ -119,7 +131,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void parseMessage(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callMessage(update, update.message(), bot);
+        getProcessor().getMethodSet().callMessage(update, update.message(), bot);
     }
 
     /**
@@ -129,7 +141,7 @@ public class UpdateManager {
      * @param bot The Bot entity associated with the update.
      */
     public void updateParse(Update update, AbstractBot<?> bot) {
-        processor.getMethodSet().callUpdate(update, bot);
+        getProcessor().getMethodSet().callUpdate(update, bot);
     }
 
 }

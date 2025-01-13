@@ -7,6 +7,7 @@ import org.fbs.mcb.data.ClassReorder;
 import org.fbs.mcb.data.MethodSignature;
 import org.fbs.mcb.data.MethodType;
 import org.fbs.mcb.data.meta.Constants;
+import org.fbs.mcb.util.base.AbstractMethodMapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Method;
@@ -14,39 +15,64 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.fbs.mcb.util.AnnotationHandler.getAnnotatedMethods;
+import static org.fbs.mcb.util.AnnotationUtil.getAnnotatedMethods;
 import static org.fbs.mcb.util.MethodInvoker.generateAllSubsetsWithPermutations;
 import static org.fbs.mcb.util.MethodInvoker.hasDuplicate;
 
 /**
- * This class is responsible for mapping methods from a given configuration class to {@link BotMethod} objects.
- * It reads methods annotated with {@link Feedback} and {@link Command}, and creates corresponding {@link BotMethod} objects.
- * The class also handles ignoring update types and senders based on provided annotations.
+ * This class extends AbstractMethodMapper and provides functionality to map methods annotated with
+ * {@link Feedback} and {@link Command} to {@link BotMethod} objects.
  */
-public class MethodMapper {
+public class MethodMapper extends AbstractMethodMapper {
 
     /**
-     * Reads methods from the configuration class and save them to {@link BotMethod} objects.
+     * Sets the {@link ConfigurationProcessor} instance for this class.
+     * This method overrides the superclass's method to provide a specific implementation.
      *
-     * @param processor The {@link ConfigurationProcessor} object used to retrieve the configuration class.
-     * @param argsClasses The argument classes to be considered for method mapping.
-     * @return A list of {@link BotMethod} objects representing the mapped methods.
+     * @param processor The {@link ConfigurationProcessor} instance to be set.
+     *                  This instance is used to process configuration data and provide necessary functionality.
      */
-    public List<BotMethod> readMethods(ConfigurationProcessor processor, Class<?> ... argsClasses){
+    @Override
+    public void setProcessor(ConfigurationProcessor processor) {
+        super.setProcessor(processor);
+    }
+
+    /**
+     * This method reads methods annotated with {@link Feedback} and {@link Command} from the provided arguments and maps them to
+     * {@link BotMethod} objects. It also handles ignoring update types and senders based on provided annotations.
+     *
+     * @param args Varargs of Object type representing the arguments to be considered when mapping methods.
+     * @return A List of {@link BotMethod} objects representing the mapped methods.
+     * @throws NullPointerException If the ConfigurationProcessor's configuration object or class is null.
+     * @throws IllegalArgumentException If the method signature is not supported or if duplicate argument classes are found.
+     */
+    @Override
+    public List<BotMethod> readMethods(Object ... args){
+        Class<?>[] argsClasses = null;
+        for (Object arg : args) {
+            if (arg.getClass() == Class[].class) {
+                argsClasses = (Class<?>[]) arg;
+                break;
+            }
+        }
+        if (argsClasses == null){
+            throw new IllegalArgumentException("Invalid arguments. Expected an array of Class<?> objects.");
+        }
+        
         List<BotMethod> botMethods = new ArrayList<>();
 
         Method[] methods;
         try {
-            methods = getAnnotatedMethods(processor.getConfigurationObject().getClass(), Feedback.class);
+            methods = getAnnotatedMethods(getProcessor().getConfigurationObject().getClass(), Feedback.class);
         }catch (NullPointerException e){
-            methods = getAnnotatedMethods(processor.getConfigurationClass(), Feedback.class);
+            methods = getAnnotatedMethods(getProcessor().getConfigurationClass(), Feedback.class);
         }
 
         Method[] commands;
         try {
-            commands = getAnnotatedMethods(processor.getConfigurationObject().getClass(), Command.class);
+            commands = getAnnotatedMethods(getProcessor().getConfigurationObject().getClass(), Command.class);
         }catch (NullPointerException e){
-            commands = getAnnotatedMethods(processor.getConfigurationClass(), Command.class);
+            commands = getAnnotatedMethods(getProcessor().getConfigurationClass(), Command.class);
         }
 
         for (Method method: methods){
@@ -55,7 +81,7 @@ public class MethodMapper {
                 case "update":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.UPDATE,
                                     "update",
                                     new ClassReorder(
@@ -68,9 +94,9 @@ public class MethodMapper {
                 case "start":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.START,
-                                    processor.getStartCommand(),
+                                    getProcessor().getStartCommand(),
                                     new ClassReorder(
                                             Constants.START_PARAMETERS,
                                             signature.parameterTypes()
@@ -81,7 +107,7 @@ public class MethodMapper {
                 case "inline_query":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.INLINE_QUERY,
                                     "inline_query",
                                     new ClassReorder(
@@ -94,7 +120,7 @@ public class MethodMapper {
                 case "callback_query":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.CALLBACK_QUERY,
                                     "callback_query",
                                     new ClassReorder(
@@ -107,7 +133,7 @@ public class MethodMapper {
                 case "message":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.MESSAGE,
                                     "message",
                                     new ClassReorder(
@@ -120,7 +146,7 @@ public class MethodMapper {
                 case "entities":{
                     botMethods.add(
                             new BotMethod(method,
-                                    processor.isThreadSeparation(),
+                                    getProcessor().isThreadSeparation(),
                                     MethodType.ENTITIES,
                                     "entities",
                                     new ClassReorder(
@@ -140,7 +166,7 @@ public class MethodMapper {
             MethodSignature signature = getSignature(command, List.of(argsClasses), Arrays.toString(argsClasses), argsClasses);
             botMethods.add(
                     new BotMethod(command,
-                            processor.isThreadSeparation(),
+                            getProcessor().isThreadSeparation(),
                             MethodType.COMMAND,
                             command.getAnnotation(Command.class).value(),
                             new ClassReorder(

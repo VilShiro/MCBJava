@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * This utility class provides methods for working with annotations in Java.
  */
-public class AnnotationHandler {
+public class AnnotationUtil {
 
     /**
      * Retrieves the specified annotation from the given class.

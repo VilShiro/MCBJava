@@ -18,7 +18,7 @@ public abstract class AbstractBot <T>{
      *
      * @param args Variable number of arguments for configuration.
      */
-    protected void setConfiguration(Object ... args){}
+    protected abstract void setConfiguration(Object ... args);
 
     /**
      * Returns the bot instance.
@@ -34,7 +34,7 @@ public abstract class AbstractBot <T>{
      *
      * @param args Variable number of arguments for initialization.
      */
-    protected void initBot(Object ... args){}
+    protected abstract void initBot(Object ... args);
 
     /**
      * Sets the bot instance.
