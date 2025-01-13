@@ -53,18 +53,9 @@ public class Bot extends AbstractBot<TelegramBot>{
             Update lastUpdate = list.get(list.size()-1);
             if (getConfiguration() != null) {
                 if (!getConfiguration().isDoubleDispatch()) {
-                    try {
-                        getConfiguration().handle(lastUpdate, this);
-                    } catch (InvocationTargetException | IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
+                    getConfiguration().handle(lastUpdate, this);
                 } else {
-
-                    try {
-                        getConfiguration().handle(lastUpdate, this);
-                    } catch (InvocationTargetException | IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
+                    getConfiguration().handle(lastUpdate, this);
                     updateParse(lastUpdate);
 
                     if (lastUpdate.message() != null && !Objects.equals(lastUpdate.message().text(), "")) {
