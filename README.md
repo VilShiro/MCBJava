@@ -28,7 +28,7 @@ Please give my repository a ⭐, it will help me know that someone is using it
       * [@Command annotation](#command-annotation)
   * [Bugs](#bugs)
   * [Priorities](#priorities)
-  * [Prospect](#prospect)
+  * [Todo](#todo)
   * [Thanks](#thanks)
 <!-- TOC -->
 
@@ -43,6 +43,11 @@ Maven
     <artifactId>mcb</artifactId>
     <version>1.5.3</version>
 </dependency>
+```
+
+Gradle
+```groovy
+implementation group: 'io.github.vilshiro', name: 'mcb', version: '1.5.3'
 ```
 
 [Maven Central Repository](https://central.sonatype.com/artifact/io.github.vilshiro/mcb/overview)
