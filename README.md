@@ -185,7 +185,7 @@ Command functions have the same parameter sets as `@Feedback("entities")`, but w
 
 - If the bot token is specified via the constructor, but a configuration containing the token is also added, the bot will have the token specified via the constructor
 
-## Prospect
+## Todo
 
 - [X] Add a buffer of processed methods for faster response to updates
 - [ ] Implementation of multi-user functionality
