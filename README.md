@@ -41,13 +41,13 @@ Maven
 <dependency>
     <groupId>io.github.vilshiro</groupId>
     <artifactId>mcb</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
 </dependency>
 ```
 
 Gradle
 ```groovy
-implementation group: 'io.github.vilshiro', name: 'mcb', version: '1.5.3'
+implementation group: 'io.github.vilshiro', name: 'mcb', version: '1.5.4'
 ```
 
 [Maven Central Repository](https://central.sonatype.com/artifact/io.github.vilshiro/mcb/overview)
