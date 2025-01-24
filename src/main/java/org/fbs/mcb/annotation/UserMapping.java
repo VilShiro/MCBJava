@@ -3,14 +3,19 @@ package org.fbs.mcb.annotation;
 import org.fbs.mcb.data.client.OnAddStrategy;
 import org.fbs.mcb.data.client.OnEndStrategy;
 import org.fbs.mcb.data.client.OnTimeoutStrategy;
-import org.fbs.mcb.data.client.UserMappingStrategy;
+import org.fbs.mcb.data.client.UserMapper;
+
+import java.lang.annotation.*;
 
 /**
  * This annotation is used to configure the behavior of the UserMapper class.
  * It provides options for handling various events during the mapping process.
- * @see UserMappingStrategy
+ * @see UserMapper
  */
-public @interface UserMapper {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+@Documented
+public @interface UserMapping {
 
     /**
      * Specifies the strategy to be used when a new user is added.
@@ -31,7 +36,7 @@ public @interface UserMapper {
     OnTimeoutStrategy onTimeout() default OnTimeoutStrategy.THROW_EXCEPTION;
     
     /**
-     * This method returns the timeout value specified in the {@link UserMapper} annotation.
+     * This method returns the timeout value specified in the {@link UserMapping} annotation.
      * If no value is explicitly set, the default value of 0 is returned.
      */
     int timeout() default 0;
