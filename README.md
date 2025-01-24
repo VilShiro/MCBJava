@@ -10,9 +10,9 @@
   </a>
 </div>
 
-> _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-user multi-threaded work will be implemented_
+> _Version 1.5 this is a transitional version, in version 2.0 the features of 1.0 (creation through function overrides) will be cut in favor of an emphasis on the annotation management system, and also the possibilities of multi-botUser multi-threaded work will be implemented_
 
-> _The operation of the multi-user bot has not been tested and is at the development stage, bugs and critical errors are possible_
+> _The operation of the multi-botUser bot has not been tested and is at the development stage, bugs and critical errors are possible_
 
 > _Publishing to Maven Central with version 2.0 release_
 
@@ -199,7 +199,7 @@ public class Main{
 ## Todo
 
 - [X] Add a buffer of processed methods for faster response to updates
-- [ ] Implementation of multi-user functionality
+- [ ] Implementation of multi-botUser functionality
 - [X] Possibility of implementing third-party Telegram Bot API
 - [X] Increase the autonomy of each element
 
