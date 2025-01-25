@@ -4,7 +4,7 @@ package org.fbs.mcb.data.client;
  * This class represents a client thread that extends the standard Java Thread class.
  * It is responsible for handling client-related operations.
  */
-public class ClientThread extends Thread {
+public class UserThread extends Thread {
 
     /**
      * The unique identifier of the client associated with this thread.
@@ -17,7 +17,7 @@ public class ClientThread extends Thread {
      *
      * @param userId The unique identifier of the client associated with this thread.
      */
-    public ClientThread(String userId) {
+    public UserThread(String userId) {
         this.userId = userId;
         start();
     }

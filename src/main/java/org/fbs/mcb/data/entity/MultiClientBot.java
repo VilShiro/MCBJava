@@ -1,9 +1,8 @@
 package org.fbs.mcb.data.entity;
 
 import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.data.MethodType;
-import org.fbs.mcb.data.client.Client;
-import org.fbs.mcb.data.client.ClientThreadSet;
+import org.fbs.mcb.data.client.BotUser;
+import org.fbs.mcb.data.client.UserThreadSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.Objects;
 
 public class MultiClientBot extends Bot {
 
-    private final ArrayList<Client> clients = new ArrayList<>();
+    private final ArrayList<BotUser> botUsers = new ArrayList<>();
 
     protected MultiClientBot(String botToken, String startCommandRaw) {
         super(botToken, startCommandRaw);
@@ -25,8 +24,8 @@ public class MultiClientBot extends Bot {
         super(configurationClass);
     }
 
-    protected ClientThreadSet getThreadsByThreadsArr(long userId, ArrayList<ClientThreadSet> threadsArrayList){
-        for (ClientThreadSet threads : threadsArrayList) {
+    protected UserThreadSet getThreadsByThreadsArr(long userId, ArrayList<UserThreadSet> threadsArrayList){
+        for (UserThreadSet threads : threadsArrayList) {
             if (threads.getUserId() == userId) {
                 return threads;
             }
@@ -34,68 +33,68 @@ public class MultiClientBot extends Bot {
         return null;
     }
 
-    protected ClientThreadSet getThreadsByAction(long userId, MethodType type){
-        return Objects.requireNonNull(getClientById(userId)).getThreadSetByAction(type);
+    protected UserThreadSet getThreadsByAction(long userId){
+        return Objects.requireNonNull(getClientById(userId)).getThreadSet();
     }
 
-    protected ClientThreadSet getThreadsOnUpdate(long userId, ArrayList<ClientThreadSet> threads){
-        ClientThreadSet clientThreadSet = getThreadsByThreadsArr(userId, threads);
+    protected UserThreadSet getThreadsOnUpdate(long userId, ArrayList<UserThreadSet> threads){
+        UserThreadSet userThreadSet = getThreadsByThreadsArr(userId, threads);
 
-        if (clientThreadSet == null) {
-            threads.add(new ClientThreadSet(userId));
-            clientThreadSet = getThreadsByThreadsArr(userId, threads);
+        if (userThreadSet == null) {
+            threads.add(new UserThreadSet(userId));
+            userThreadSet = getThreadsByThreadsArr(userId, threads);
         }
 
-        if (clientThreadSet.getUserId() == userId) {
-            for (int i = 0; i < clientThreadSet.size(); i++) {
-                clientThreadSet.removeClientThread(i);
+        if (userThreadSet.getUserId() == userId) {
+            for (int i = 0; i < userThreadSet.size(); i++) {
+                userThreadSet.removeClientThread(i);
             }
         }
 
-        return clientThreadSet;
+        return userThreadSet;
     }
 
-    protected void callbackQueryParse(CallbackQuery query, Client client) {}
+    protected void callbackQueryParse(CallbackQuery query, BotUser botUser) {}
 
-    protected void entitiesParse(MessageEntity[] messageEntities, Message message, Client client) {}
+    protected void entitiesParse(MessageEntity[] messageEntities, Message message, BotUser botUser) {}
 
-    protected void inlineQueryParse(InlineQuery query, Client client) {}
+    protected void inlineQueryParse(InlineQuery query, BotUser botUser) {}
 
-    protected void messageParse(Message message, Client client) {}
+    protected void messageParse(Message message, BotUser botUser) {}
 
-    protected void onStartCommand(Message message, Client client) {}
+    protected void onStartCommand(Message message, BotUser botUser) {}
 
-    protected void updateParse(Update update, Client client) {}
+    protected void updateParse(Update update, BotUser botUser) {}
 
     @Deprecated
     @Override
     protected void callbackQueryParse(CallbackQuery query){
-        Client client = getClientById(query.from().id());
-        if (client == null) {
-            client = new Client(query.from());
-            clients.add(client);
+        BotUser botUser = getClientById(query.from().id());
+        if (botUser == null) {
+            botUser = new BotUser(query.from());
+            botUsers.add(botUser);
         }
-        callbackQueryParse(query, client);
+        callbackQueryParse(query, botUser);
     }
 
     @Deprecated
     @Override
     protected void entitiesParse(MessageEntity[] messageEntities, Message message){
-        Client client = getClientById(message.from().id());
-        if (client == null) {
-            client = new Client(message.from());
-            clients.add(client);
+        BotUser botUser = getClientById(message.from().id());
+        if (botUser == null) {
+            botUser = new BotUser(message.from());
+            botUsers.add(botUser);
         }
-        entitiesParse(messageEntities, message, client);
+        entitiesParse(messageEntities, message, botUser);
     }
 
     @Deprecated
     @Override
     protected void inlineQueryParse(InlineQuery query){
-        Client client = getClientById(query.from().id());
-        if (client == null) {
-            client = new Client(query.from());
-            clients.add(client);
+        BotUser botUser = getClientById(query.from().id());
+        if (botUser == null) {
+            botUser = new BotUser(query.from());
+            botUsers.add(botUser);
         }
         inlineQueryParse(query, getClientById(query.from().id()));
     }
@@ -103,10 +102,10 @@ public class MultiClientBot extends Bot {
     @Deprecated
     @Override
     protected void messageParse(Message message){
-        Client client = getClientById(message.from().id());
-        if (client == null) {
-            client = new Client(message.from());
-            clients.add(client);
+        BotUser botUser = getClientById(message.from().id());
+        if (botUser == null) {
+            botUser = new BotUser(message.from());
+            botUsers.add(botUser);
         }
         messageParse(message, getClientById(message.from().id()));
     }
@@ -114,10 +113,10 @@ public class MultiClientBot extends Bot {
     @Deprecated
     @Override
     protected void onStartCommand(Message message){
-        Client client = getClientById(message.from().id());
-        if (client == null) {
-            client = new Client(message.from());
-            clients.add(client);
+        BotUser botUser = getClientById(message.from().id());
+        if (botUser == null) {
+            botUser = new BotUser(message.from());
+            botUsers.add(botUser);
         }
         onStartCommand(message, getClientById(message.from().id()));
     }
@@ -125,18 +124,18 @@ public class MultiClientBot extends Bot {
     @Deprecated
     @Override
     protected void updateParse(Update update){
-        Client client = getClientById(update.myChatMember().from().id());
-        if (client == null) {
-            client = new Client(update.myChatMember().from());
-            clients.add(client);
+        BotUser botUser = getClientById(update.myChatMember().from().id());
+        if (botUser == null) {
+            botUser = new BotUser(update.myChatMember().from());
+            botUsers.add(botUser);
         }
-        updateParse(update, client);
+        updateParse(update, botUser);
     }
 
-    private Client getClientById(long id){
-        for (Client client : clients) {
-            if (client.getId() == id) {
-                return client;
+    private BotUser getClientById(long id){
+        for (BotUser botUser : botUsers) {
+            if (botUser.getId() == id) {
+                return botUser;
             }
         }
         return null;

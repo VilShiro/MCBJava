@@ -5,17 +5,17 @@ import java.util.ArrayList;
 /**
  * This class manages a collection of client threads associated with a specific user.
  */
-public class ClientThreadSet {
+public class UserThreadSet {
 
     private final long userId;
-    private final ArrayList<ClientThread> threads = new ArrayList<>();
+    private final ArrayList<UserThread> threads = new ArrayList<>();
 
     /**
      * Constructs a new instance of ClientThreads for the given user ID.
      *
      * @param userId The unique identifier of the user.
      */
-    public ClientThreadSet(long userId){
+    public UserThreadSet(long userId){
         this.userId = userId;
     }
 
@@ -25,7 +25,7 @@ public class ClientThreadSet {
      * @param runnable The Runnable to be executed by the new client thread.
      */
     public void addClientThread(Runnable runnable){
-        threads.add(new ClientThread(userId + ""){
+        threads.add(new UserThread(userId + ""){
             @Override
             public void run() {
                 runnable.run();
@@ -39,7 +39,7 @@ public class ClientThreadSet {
      * @param i The index of the client thread to retrieve.
      * @return The client thread at the specified index.
      */
-    public ClientThread get(int i){
+    public UserThread get(int i){
         return threads.get(i);
     }
 
@@ -57,7 +57,7 @@ public class ClientThreadSet {
      *
      * @param thread The client thread to remove.
      */
-    public void removeClientThread(ClientThread thread){
+    public void removeClientThread(UserThread thread){
         threads.remove(thread);
     }
 
