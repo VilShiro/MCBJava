@@ -1,4 +1,4 @@
-package org.fbs.mcb.data.client;
+package org.fbs.mcb.data.user;
 
 /**
  * This interface provides methods for managing user-related operations.

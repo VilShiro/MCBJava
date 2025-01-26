@@ -1,4 +1,4 @@
-package org.fbs.mcb.data.client;
+package org.fbs.mcb.data.user;
 
 /**
  * This class represents a client thread that extends the standard Java Thread class.

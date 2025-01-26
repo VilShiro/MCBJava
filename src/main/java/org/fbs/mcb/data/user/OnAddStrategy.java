@@ -1,4 +1,4 @@
-package org.fbs.mcb.data.client;
+package org.fbs.mcb.data.user;
 
 /**
  * Represents the strategies for handling the addition of a new client to the system.

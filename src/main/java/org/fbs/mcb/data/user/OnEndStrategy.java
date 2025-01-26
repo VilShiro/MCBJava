@@ -1,4 +1,4 @@
-package org.fbs.mcb.data.client;
+package org.fbs.mcb.data.user;
 
 /**
  * Represents the strategies to handle the end of a client's connection.

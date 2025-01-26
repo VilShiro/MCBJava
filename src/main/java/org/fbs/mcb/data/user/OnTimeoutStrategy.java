@@ -1,4 +1,4 @@
-package org.fbs.mcb.data.client;
+package org.fbs.mcb.data.user;
 
 /**
  * Represents the strategies to handle a timeout event in a client-server communication.

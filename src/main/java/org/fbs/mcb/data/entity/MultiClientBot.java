@@ -1,8 +1,8 @@
 package org.fbs.mcb.data.entity;
 
 import com.pengrad.telegrambot.model.*;
-import org.fbs.mcb.data.client.BotUser;
-import org.fbs.mcb.data.client.UserThreadSet;
+import org.fbs.mcb.data.user.BotUser;
+import org.fbs.mcb.data.user.UserThreadSet;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

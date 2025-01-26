@@ -1,16 +1,15 @@
 package org.fbs.mcb.annotation;
 
-import org.fbs.mcb.data.client.OnAddStrategy;
-import org.fbs.mcb.data.client.OnEndStrategy;
-import org.fbs.mcb.data.client.OnTimeoutStrategy;
-import org.fbs.mcb.data.client.UserMapper;
+import org.fbs.mcb.data.user.OnAddStrategy;
+import org.fbs.mcb.data.user.OnEndStrategy;
+import org.fbs.mcb.data.user.OnTimeoutStrategy;
 
 import java.lang.annotation.*;
 
 /**
- * This annotation is used to configure the behavior of the UserMapper class.
- * It provides options for handling various events during the mapping process.
- * @see UserMapper
+ * This annotation is used to map user-specific behavior during the mapping process.
+ * It provides configuration options for the strategies to be used when a new user is added,
+ * when the mapping process ends, and when a timeout occurs.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.TYPE})
